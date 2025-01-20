@@ -1,19 +1,26 @@
-{% extends "delete_order_app/base.html" %}
+{% extends "base.html" %}
+
+{% block title %}Удаление заказа{% endblock title %}
 
 {% block content %}
     <h1> Выберите и удалите заказ </h1>
         <form method="post" action="{% url 'delete' %}">
             {% csrf_token %}
             {% for order in orders %}
-                <input type="radio" id="delete" name="delete" value= {{ order.id }}>
-                <label for="delete"> Id - {{ order.id }} Номер стола {{ order.table_number }} 
-                    Блюда в заказе
-                    {% for item in order.items.all %}
-                        {{ item.name }}
-                    {% endfor %}
-                    Статус: {{ order.status }}
-                </label><br>
+                <h3><input type="radio" id="delete" name="delete" value= {{ order.id }}>
+                    <label for="delete"> Id - {{ order.id }}; Номер стола {{ order.table_number }}; 
+                        Блюда в заказе
+                        {% for item in order.items.all %}
+                        {% if forloop.last %}
+                            {{ item.name }};
+                        {% else %}
+                            {{ item.name }},
+                        {% endif %}
+                        {% endfor %}
+                        Статус: {{ order.status }}
+                    </label><br>
+                </h3>
             {% endfor %}
-            <input type="submit" value="Удалить"> 
+            <button type="submit" class="delete_button">Удалить</button> 
         </form>
 {% endblock content %}

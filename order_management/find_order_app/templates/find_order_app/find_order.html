@@ -1,30 +1,33 @@
-{% extends "find_order_app/base.html" %}
+{% extends "base.html" %}
+
+{% block title %}Поиск заказов{% endblock title %}
 
 {% block content %}
     <h1> Выберите вариант поиска </h1>
         <form method="post" action="{% url 'find_order' %}">
             {% csrf_token %}
-            <select name='select' id='select'>
-                <option value="table_number">Номер стола</option>
-                <option value="status">Статус</option>
-            </select>
-            <label for="find"></label>
-            <input type="text" id="find" name="find">
-            <input type="submit" value="Искать"> 
+            <h3>
+                <select name='select' id='select'>
+                    <option value="table_number">Номер стола</option>
+                    <option value="status">Статус</option>
+                </select>
+                <label for="find"></label>
+                <input type="text" id="find" name="find">
+                <button type="submit" class="add_button">Искать</button>
+            </h3> 
         </form>
-    {% for order in orders %}
-        Id - {{ order.id }} <br>
-        Номер стола - {{ order.table_number }} <br>
-        Статус - {{ order.get_status_display }} <br>
-        {% if order.get_status_display != 'Оплачено'%}
-            К оплате - {{ order.total_price }}
-        {% endif %}
-        <br>
-        Блюда в заказе:
-        {% for item in order.items.all %}
-            <div class='item'>
-                {{ item.name }} <br>
-            </div>
+    <h3>
+        {% for order in orders %}
+            Id - <span class="blue">{{ order.id }}</span> <br>
+            Номер стола - <span class="blue">{{ order.table_number }}</span> <br>
+            Статус - <span class="blue">{{ order.get_status_display }}</span> <br>
+            {% if order.get_status_display != 'Оплачено'%}
+                К оплате - <span class="blue">{{ order.total_price }}</span><br>
+            {% endif %}
+            Блюда в заказе:
+            <h4>{% for item in order.items.all %}
+                        {{ item.name }} <br>
+            {% endfor %}</h4>
         {% endfor %}
-    {% endfor %}
+    </h3>
 {% endblock content %}

@@ -1,6 +1,6 @@
 {% for product in products %}
-    {{product.name}} <br>
-        Состав: <br>
+    {{forloop.counter}}. <span class="blue">{{product.name}}</span> <br>
+        <span class="structure">Состав:</span> <br>
         {{product.ingredients}} <br>
     <br>
 {% endfor %}

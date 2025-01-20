@@ -1,0 +1,230 @@
+.add_button {
+    text-decoration: none;
+    display: inline-block;
+    width: 140px;
+    height: 50px;
+    line-height: 45px;
+    border-radius: 45px;
+    margin: 10px 5px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 2px;
+    font-weight: 600;
+    color: #f1eeed;
+    background: #0a67d8;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, .1);
+    transition: .3s;
+}
+
+.add_button:hover {
+    background: #2EE59D;
+    box-shadow: 0 15px 20px rgba(46, 229, 157, .4);
+    color: white;
+    transform: translateY(-5px);
+}
+.save_button {
+    text-decoration: none;
+    display: inline-block;
+    width: 140px;
+    height: 50px;
+    line-height: 45px;
+    border-radius: 45px;
+    margin: 10px 5px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 2px;
+    font-weight: 600;
+    color: #f1eeed;
+    background: #0a67d8;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, .1);
+    transition: .3s;
+}
+
+.save_button:hover {
+    background: #e5e22e;
+    box-shadow: 0 15px 20px rgba(217, 229, 46, 0.4);
+    color: rgb(8, 8, 8);
+    transform: translateY(-5px);
+}
+.delete_button {
+    text-decoration: none;
+    display: inline-block;
+    width: 140px;
+    height: 50px;
+    line-height: 45px;
+    border-radius: 45px;
+    margin: 10px 5px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 2px;
+    font-weight: 600;
+    color: #f1eeed;
+    background: #0a67d8;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, .1);
+    transition: .3s;
+}
+
+.delete_button:hover {
+    background: #e5502e;
+    box-shadow: 0 15px 20px rgba(229, 98, 46, 0.4);
+    color: rgb(255, 255, 255);
+    transform: translateY(-5px);
+}
+
+h1 {
+    color: #0a67d8;
+}
+h4 {
+    padding-left: 25px;
+}
+
+div.list_dish{
+    padding-left: 25px;
+}
+div.price {
+    padding-left: 25px;
+}
+
+span.blue {
+    color: #0a67d8;
+    font-size: 125%;
+}
+span.structure{
+    font-style: italic;
+    font-size: 115%;
+}
+
+.negative {
+    color: #851010;
+}
+
+.positive {
+    color: #286c15;
+}
+
+.cl-link a {
+    color: rgba(58, 127, 217, 0.753);
+    font-weight: 700;
+    text-shadow: none;
+}
+
+.cl-link a::before {
+    color: #0a67d8;
+    content: attr(data-hover);
+    position: absolute;
+    -webkit-transition: -webkit-transform 0.3s, opacity 0.3s;
+    -moz-transition: -moz-transform 0.3s, opacity 0.3s;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+.cl-link a:hover::before,
+.cl-link a:focus::before {
+    -webkit-transform: scale(0.9);
+    -moz-transform: scale(0.9);
+    transform: scale(0.9);
+    opacity: 0;
+}
+
+ul {
+    -webkit-column-count: 1;
+    -moz-column-count: 1;
+    column-count: 1;
+    /* 2 колонки */
+    list-style-type: none;
+    /* убрать значки */
+    width: 90%;
+    max-width: 35rem;
+    /* максимальная длина */
+    border-radius: 20px;
+    /* радиус у границы */
+    margin: 2rem auto;
+    /* расположение по центру */
+    padding: 1px;
+    padding-right: 10px;
+    /* отступы */
+    background-color: #f1f1f1;
+    /* цвет фона */
+}
+
+ul li {
+    text-align: center;
+    width: 100%;
+    font-size: 2rem;
+    padding: 1rem 1rem;
+}
+
+h1.home {
+    color: #0a67d8;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 48px;
+    text-decoration: underline;
+}
+
+.btn-new {
+    border-radius: 10px;
+    padding: 8px;
+    color: white;
+    transition: .2s linear;
+    background: #0a67d8;
+    font-size: 30px;
+
+}
+
+.btn-new:hover {
+    box-shadow: 0 0 0 2px white, 0 0 0 4px #3C82F8;
+}
+
+a {
+    text-decoration: none;
+}
+
+.styled-table {
+    border-collapse: collapse;
+    margin: 25px 25px;
+    font-size: 1.4em;
+    font-family: sans-serif;
+    min-width: 1000px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.20);
+}
+
+.styled-table thead tr {
+    background-color: #0a67d8;
+    color: #ffffff;
+    text-align: center;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+    text-align: center;
+
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #0a67d8;
+}
+
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: #0a67d8;
+}
+
+h1.table {
+    margin: 0px 500px;
+    color: #0a67d8;
+}

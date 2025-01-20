@@ -1,6 +1,10 @@
-{% extends "add_order_app/base.html" %}
+{% extends "base.html" %}
+
+{% block title %}Заказ добавлен{% endblock title %}
 
 {% block content %}
     <h1> Заказ добавлен</h1>
-    <a href=" {% url 'creating_order' %} "> Сделать следующий </a>
+    <nav class="cl-link">
+        <a href=" {% url 'creating_order' %} " data-hover="Сделать следующий">Сделать следующий</a>
+    </nav>
 {% endblock content %}

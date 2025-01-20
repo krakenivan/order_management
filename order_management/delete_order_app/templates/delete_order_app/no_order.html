@@ -1,6 +1,10 @@
-{% extends "delete_order_app/base.html" %}
+{% extends "base.html" %}
+
+{% block title %}Заказов нет{% endblock title %}
 
 {% block content %}
     <h1> Заказов нет </h1>
-    <a href=" {% url 'creating_order' %} "> Добавить заказ </a>
+    <nav class="cl-link">
+        <a href=" {% url 'creating_order' %} " data-hover="Добавить заказ">Добавить заказ</a>
+    </nav>
 {% endblock content %}

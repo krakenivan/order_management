@@ -1,16 +1,20 @@
-{% extends "list_product_app/base.html" %}
+{% extends "base.html" %}
+
+{% block title %}Удалить из меню{% endblock title %}
 
 {% block content %}
     <h1> Выберите и удалите блюдо </h1>
     <form method="post" action="{% url 'delete_product' %}">
         {% csrf_token %}
-        {% for product in products %}
-            <input type="radio" id="id" name="id" value= {{ product.id }}>
-            <label for="id"> Id - {{ product.id }} Название блюда {{ product.name }} </label><br>
-        {% endfor %}
-        <input type="submit" value="Удалить"> 
+        <h3>
+            {% for product in products %}
+                <input type="radio" id="id" name="id" value= {{ product.id }}>
+                <label for="id"> Id - {{ product.id }}; Название блюда: <span class="blue">{{ product.name }}</span> </label><br>
+            {% endfor %}
+        </h3>
+        <button type="submit" class="delete_button">Удалить</button>
     </form>
     {% if deleted == "+" %}
-        <h3>Блюдо удалено</h3>
+        <h3 class="positive">Блюдо удалено</h3>
     {% endif %}
 {% endblock content %}
