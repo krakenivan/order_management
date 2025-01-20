@@ -1,0 +1,16 @@
+{% extends "list_product_app/base.html" %}
+
+{% block content %}
+    <h1> Выберите и удалите блюдо </h1>
+    <form method="post" action="{% url 'delete_product' %}">
+        {% csrf_token %}
+        {% for product in products %}
+            <input type="radio" id="id" name="id" value= {{ product.id }}>
+            <label for="id"> Id - {{ product.id }} Название блюда {{ product.name }} </label><br>
+        {% endfor %}
+        <input type="submit" value="Удалить"> 
+    </form>
+    {% if deleted == "+" %}
+        <h3>Блюдо удалено</h3>
+    {% endif %}
+{% endblock content %}

@@ -1,0 +1,52 @@
+{% extends "home/base.html" %}
+
+
+{% block content %}
+    {% include "includes/navbar.html" %}
+    <h1> Добро пожаловать </h1>
+    <ul>
+        <li>
+            <div></div>
+            <a class="btn-new" act="link" onclick="" data-action-name="link" style="" href=" {% url "creating_order" %}"> Добавить заказ </a>
+            </div>
+        </li>
+        <li>
+            <div></div>
+            <a class="btn-new" act="link" onclick="" data-action-name="link" style="" href=" {% url "edit_order" %}"> Изменить заказ </a>
+            </div>
+        </li>
+        <li>
+            <div></div>
+            <a class="btn-new" act="link" onclick="" data-action-name="link" style="" href=" {% url "choosing_delete" %}"> Удалить заказ</a>
+            </div>
+        </li>
+        <li>
+            <div></div>
+            <a class="btn-new" act="link" onclick="" data-action-name="link" style="" href=" {% url "change_status" %}"> Сменить статус заказа</a>
+            </div>
+        </li>
+        <li>
+            <div></div>
+            <a class="btn-new" act="link" onclick="" data-action-name="link" style="" href=" {% url "find_order" %}"> Найти заказ </a>
+            </div>
+        </li>
+        <li>
+            <div></div>
+            <a class="btn-new" act="link" onclick="" data-action-name="link" style="" href=" {% url "show_orders" %}"> Показать все заказы</a>
+            </div>
+        </li>
+        <li>
+            <div></div>
+            <a class="btn-new" act="link" onclick="" data-action-name="link" style="" href=" {% url "product" %}"> Список меню</a>
+            </div>
+        </li>
+        
+        <li>
+            <div></div>
+            <a class="btn-new" act="link" onclick="" data-action-name="link" style="" href=" {% url "calculation" %}"> Расчет за смену</a>
+            </div>
+        </li>
+        
+            
+    </ul>
+{% endblock  %}

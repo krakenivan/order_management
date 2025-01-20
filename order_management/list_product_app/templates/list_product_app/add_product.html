@@ -1,0 +1,21 @@
+{% extends "list_product_app/base.html" %}
+
+{% block content %}
+    {% include "includes/navbar.html" %}
+    <h2> Блюда в меню </h2>
+    {% include "includes/menu.html" %}
+    <form method="post" action="{% url 'add_product' %}">
+        {% csrf_token %}
+        <label for="name">Название блюда</label>
+        <input type="text" id="name" name="name">
+        <br>
+        <label for="ingredients">Ингридиенты блюда</label>
+        <input type="text" id="ingredients" name="ingredients">
+        <br>
+        <button type="submit">Добавить</button>
+    </form>
+    {% if addet == '+' %}
+        <h3> Блюдо добавлено </h3>
+    {% endif %}
+
+{% endblock content %}

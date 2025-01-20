@@ -1,0 +1,29 @@
+{% extends "change_status_app/base.html" %}
+{% load change_status_filter %}
+
+{% block content %}
+    <h1> Выберите статус для заказа </h1>
+    <form method="post" action="{% url 'change_one_status' order.id %}">
+        {% csrf_token %}
+        <label for={{ order.id }}> Id - {{ order.id }} Номер стола {{ order.table_number }} 
+            Блюда в заказе
+            {% for item in order.items.all %}
+                {{ item.name }}
+            {% endfor %}
+            <select name={{ order.id }} >
+                {% for status in stat|statedit:order.status %}
+                    <option value= {{status}} >{{status|statdisplay}}</option>
+                {% endfor %}
+            </select>
+        </label><br> 
+        {% if not changes %}
+            <input type="submit" value="Сохранить"> 
+        {% endif %}
+        {% if changes == '+' %}
+            <h3 class='positive'>Изменения сохранены</h3>
+            <a href=" {% url "creating_order" %} "> Добавить новый заказ</a>
+        {% elif changes == '-' %}
+            <h3 class='negative'>Изменения не выбраны</h3>
+        {% endif %}
+    </form>
+{% endblock content %}

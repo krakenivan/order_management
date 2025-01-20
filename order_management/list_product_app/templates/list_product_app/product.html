@@ -1,0 +1,13 @@
+{% extends "list_product_app/base.html" %}
+
+{% block content %}
+    {% include "includes/navbar.html" %}
+    <h1>Список меню</h1>
+    {% if not products %}
+        <h3>Меню пустое</h3>
+    {% else %}
+        {% include "includes/menu.html" %}
+    {% endif %}
+    <a href=" {% url "add_product" %} "> Добавить блюдо</a>
+    <a href=" {% url "delete_product" %} "> Удалить блюдо</a>
+{% endblock content %}

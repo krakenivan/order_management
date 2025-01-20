@@ -1,0 +1,30 @@
+{% extends "find_order_app/base.html" %}
+
+{% block content %}
+    <h1> Выберите вариант поиска </h1>
+        <form method="post" action="{% url 'find_order' %}">
+            {% csrf_token %}
+            <select name='select' id='select'>
+                <option value="table_number">Номер стола</option>
+                <option value="status">Статус</option>
+            </select>
+            <label for="find"></label>
+            <input type="text" id="find" name="find">
+            <input type="submit" value="Искать"> 
+        </form>
+    {% for order in orders %}
+        Id - {{ order.id }} <br>
+        Номер стола - {{ order.table_number }} <br>
+        Статус - {{ order.get_status_display }} <br>
+        {% if order.get_status_display != 'Оплачено'%}
+            К оплате - {{ order.total_price }}
+        {% endif %}
+        <br>
+        Блюда в заказе:
+        {% for item in order.items.all %}
+            <div class='item'>
+                {{ item.name }} <br>
+            </div>
+        {% endfor %}
+    {% endfor %}
+{% endblock content %}

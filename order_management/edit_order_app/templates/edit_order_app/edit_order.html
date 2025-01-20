@@ -1,0 +1,38 @@
+{% extends "edit_order_app/base.html" %}
+{% load edit_order_filter %}
+
+{% block content %}
+    <h1> Редактируйте заказы </h1>
+        {% for order_data in orders_data %}
+            <form method="post"  action="{% url 'edit_order' %}">
+            {% csrf_token %}
+            <input type="hidden" name="id" value="{{ order_data.order.id }}">
+            ID - {{order_data.order.id}}
+            <select name='table_number' >
+                    {% for table in list_table|tabedit:order_data.order.table_number%}
+                        <option value= {{table}} >{{table}}</option>
+                    {% endfor %}
+            </select>
+            <br>
+            Список блюд: <br>
+            {% for dish in order_data.dishes %}
+                <label for={{dish.name}}> {{dish.name}} </label><br>
+                Цена: <input type="number"  name={{dish.name}} step="0.01" min="0" max="10000" placeholder="0.00" value="{{dish.price}}"><br>
+            {% endfor %}
+            {% for product in order_data.remaining_products %}
+                <label for={{product.name}}> {{product.name}} </label><br>
+                Цена: <input type="number"  name={{product.name}} step="0.01" min="0" max="10000" placeholder="0.00"><br>
+            {% endfor %}
+            </label>
+            {% if edit_id == order_data.order.id %}
+                <h4>Заказ изменен</h4>
+            {% else %}
+                <br>
+            {% endif %}
+            <input type="submit" value="Редактировать"> 
+            <br>
+            <br>
+            </form>
+        {% endfor %}
+
+{% endblock content %}

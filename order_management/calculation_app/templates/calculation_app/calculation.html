@@ -1,0 +1,16 @@
+{% extends "calculation_app/base.html" %}
+
+{% block content %}
+    <h1>Расчет выручки</h1>
+    <h3>Всего заказов - {{count_all}} </h3>
+    <h3>Оплачено на - {{calculat_paid}} </h3>
+    <h3>Количество не оплаченных - {{count_unpaid}} </h3>
+    <h3> Неоплаченные заказы: </h3>
+    {% for order in unpaid %}
+            <div class='order'>
+                ID - {{ order.id }} <br>
+                Стол номер - {{ order.table_number }} <br>
+                Сумма заказа -{{ order.total_price }} <br>
+            </div>
+        {% endfor %}
+{% endblock content %}

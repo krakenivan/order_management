@@ -1,0 +1,66 @@
+ul {
+    -webkit-column-count: 1;
+    -moz-column-count: 1;
+    column-count: 1;
+    /* 2 колонки */
+    list-style-type: none;
+    /* убрать значки */
+    width: 90%;
+    max-width: 35rem;
+    /* максимальная длина */
+    border-radius: 20px;
+    /* радиус у границы */
+    margin: 2rem auto;
+    /* расположение по центру */
+    padding: 1px;
+    padding-right: 10px;
+    /* отступы */
+    background-color: #f1f1f1;
+    /* цвет фона */
+}
+
+ul li {
+    text-align: center;
+    /* расположение текста по середине */
+    width: 100%;
+    font-size: 2rem;
+    /* размер шрифта отступы */
+    padding: 1rem 1rem;
+    /* отступы */
+}
+
+/* ul a:hover, ul a:active {  
+    color: #c91010;
+} */
+/* настройка стиля при наведении и активации ссылок */
+
+h1 {
+    color: #0a67d8;
+    /* цвет */
+    text-align: center;
+    /* расположение по центру */
+    font-family: Arial, Helvetica, sans-serif;
+    /* шрифт */
+    font-size: 48px;
+    /* размер шрифта */
+    text-decoration: underline;
+    /* стиль шрифта, нижнее подчеркивание */
+}
+
+.btn-new {
+    border-radius: 10px;
+    padding: 8px;
+    color: white;
+    transition: .2s linear;
+    background: #0a67d8;
+    font-size:30px;
+
+}
+
+.btn-new:hover {
+    box-shadow: 0 0 0 2px white, 0 0 0 4px #3C82F8;
+}
+
+a {
+    text-decoration: none;
+}
