@@ -3,6 +3,7 @@
 {% block title %}Добавление заказа{% endblock title %}
 
 {% block content %}
+    {% include "includes/navbar.html"%}
     <h1> Сформируйте и отправьте заказ </h1>
     <form method="post" action="{% url 'add_order' %}">
         {% csrf_token %}

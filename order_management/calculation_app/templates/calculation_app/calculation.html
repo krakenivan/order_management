@@ -3,6 +3,7 @@
 {% block title %}Расчет выручки{% endblock title %}
 
 {% block content %}
+    {% include "includes/navbar.html"%}
     <h1>Расчет выручки</h1>
     <h3>Всего заказов - <span class="blue">{{count_all}}</span> </h3>
     <h3>Оплачено на - <span class="blue">{{calculat_paid}}</span> </h3>

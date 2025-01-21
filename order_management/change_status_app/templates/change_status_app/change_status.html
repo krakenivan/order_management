@@ -4,6 +4,7 @@
 {% block title %}Изменение статуса{% endblock title %}
 
 {% block content %}
+    {% include "includes/navbar.html"%}
     <h1> Выберите статус для заказа </h1>
     <form method="post" action="{% url 'change_status' %}">
             {% csrf_token %}

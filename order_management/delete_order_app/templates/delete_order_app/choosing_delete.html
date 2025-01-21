@@ -3,6 +3,7 @@
 {% block title %}Удаление заказа{% endblock title %}
 
 {% block content %}
+    {% include "includes/navbar.html"%}
     <h1> Выберите и удалите заказ </h1>
         <form method="post" action="{% url 'delete' %}">
             {% csrf_token %}

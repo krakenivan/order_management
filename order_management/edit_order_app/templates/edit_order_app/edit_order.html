@@ -4,6 +4,7 @@
 {% block title %}Изменение заказов{% endblock title %}
 
 {% block content %}
+    {% include "includes/navbar.html"%}
     <h1> Редактируйте заказы </h1>
         <h3>
             {% for order_data in orders_data %}

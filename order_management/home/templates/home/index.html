@@ -3,9 +3,13 @@
 {% block title %} Добро пожаловать{% endblock title %}
 
 {% block content %}
-    {% include "includes/navbar.html" %}
     <h1 class="home"> Добро пожаловать </h1>
-    <ul>
+    <ul class="index">
+        <li>
+            <div></div>
+            <a class="btn-new" act="link" onclick="" data-action-name="link" style="" href=" {% url "product" %}"> Меню</a>
+            </div>
+        </li>
         <li>
             <div></div>
             <a class="btn-new" act="link" onclick="" data-action-name="link" style="" href=" {% url "creating_order" %}"> Добавить заказ </a>
@@ -36,12 +40,6 @@
             <a class="btn-new" act="link" onclick="" data-action-name="link" style="" href=" {% url "show_orders" %}"> Показать все заказы</a>
             </div>
         </li>
-        <li>
-            <div></div>
-            <a class="btn-new" act="link" onclick="" data-action-name="link" style="" href=" {% url "product" %}"> Список меню</a>
-            </div>
-        </li>
-        
         <li>
             <div></div>
             <a class="btn-new" act="link" onclick="" data-action-name="link" style="" href=" {% url "calculation" %}"> Расчет за смену</a>

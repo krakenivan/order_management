@@ -3,6 +3,7 @@
 {% block title %}Поиск заказов{% endblock title %}
 
 {% block content %}
+    {% include "includes/navbar.html"%}
     <h1> Выберите вариант поиска </h1>
         <form method="post" action="{% url 'find_order' %}">
             {% csrf_token %}

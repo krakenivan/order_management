@@ -114,6 +114,7 @@ span.structure{
     text-shadow: none;
 }
 
+
 .cl-link a::before {
     color: #0a67d8;
     content: attr(data-hover);
@@ -131,28 +132,21 @@ span.structure{
     opacity: 0;
 }
 
-ul {
+ul.index {
     -webkit-column-count: 1;
     -moz-column-count: 1;
     column-count: 1;
-    /* 2 колонки */
     list-style-type: none;
-    /* убрать значки */
     width: 90%;
     max-width: 35rem;
-    /* максимальная длина */
     border-radius: 20px;
-    /* радиус у границы */
     margin: 2rem auto;
-    /* расположение по центру */
     padding: 1px;
     padding-right: 10px;
-    /* отступы */
     background-color: #f1f1f1;
-    /* цвет фона */
 }
 
-ul li {
+ul.index li {
     text-align: center;
     width: 100%;
     font-size: 2rem;
@@ -227,4 +221,12 @@ a {
 h1.table {
     margin: 0px 500px;
     color: #0a67d8;
+}
+
+nav a.hidden {
+    display: none;
+}
+
+ul.navbar li {
+    display: inline-block;
 }
