@@ -35,7 +35,7 @@
 
 ### 🔧 1. Клонирование репозитория
 ```bash
-git clone https://github.com/user/repository.git
+git clone https://github.com/krakenivan/order_management.git
 cd repository
 ```
 

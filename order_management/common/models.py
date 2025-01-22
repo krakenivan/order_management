@@ -36,12 +36,13 @@ class Order(models.Model):
         self.items.set(Dishes.objects.filter(order_id=self.id))
 
     def fill(self):
+        """метод для перерасчета заказа"""
         self.add_dishes()
         self.calculation()
         self.save()
 
 
 class Product(models.Model):
+    """Меню"""
     name = models.CharField(max_length=50)
     ingredients = models.TextField(null=True, blank=True)
-    

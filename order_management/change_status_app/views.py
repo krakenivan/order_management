@@ -1,9 +1,11 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 from common.models import Order
 # Create your views here.
 
-def change_status(request):
-    list_status = Order.Status.values
+def change_status(request) -> HttpResponse:
+    """Смена статуса заказа"""
+    list_status = Order.Status.values  # список доступных значений поля статус
     orders = Order.objects.all()
     if request.method == "POST":
         # Получаем данные из формы
@@ -15,7 +17,7 @@ def change_status(request):
         }
         changes = '-'
         for id, value in data.items():
-            order = Order.objects.get(id=id)
+            order: Order = Order.objects.get(id=id)
             if order.status == value:
                 continue
             else:
@@ -36,9 +38,14 @@ def change_status(request):
         )
     return render(request, "change_status_app/change_status.html", context={'orders':orders, 'stat':list_status})
 
-def change_one_status(request, order_id):
+def change_one_status(request, order_id) -> HttpResponse:
+    """Изменение статуса переданного заказа
+
+    :param order_id: id обрабатываемого заказа
+    :return: HttpResponse
+    """
     list_status = Order.Status.values
-    order = Order.objects.get(id=order_id)
+    order: Order = Order.objects.get(id=order_id)
     if request.method == "POST":
         # Получаем данные из формы
         post_data = request.POST.dict()

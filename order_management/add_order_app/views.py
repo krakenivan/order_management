@@ -1,14 +1,17 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 from common.models import Dishes, Order, Product
 
 
 # Create your views here.
-def creating_order(request):
+def creating_order(request) -> HttpResponse:
+    """Формирование заказа"""
     products = Product.objects.all()
     return render(request, "add_order_app/creating.html", context={'products':products})
 
 
-def add_order(request):
+def add_order(request) -> HttpResponse | None:
+    """Добавление заказа"""
     if request.method == "POST":
         # Получаем данные из формы
         post_data = request.POST.dict()
@@ -18,7 +21,7 @@ def add_order(request):
             if key != "csrfmiddlewaretoken" and val
         }
         if int(data["table"]) in Order.objects.exclude(status="paid").values_list("table_number", flat=True):
-            order = Order.objects.exclude(status="paid").get(table_number=data["table"])
+            order: Order = Order.objects.exclude(status="paid").get(table_number=data["table"])
             return render(request, "add_order_app/there_is_order.html", context={'order':order})
         order = Order.objects.create(table_number=data["table"])
         for key, value in data.items():
