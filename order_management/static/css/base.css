@@ -108,6 +108,10 @@ span.structure{
     color: #286c15;
 }
 
+.blue{
+    color: #0a67d8;
+}
+
 .cl-link a {
     color: rgba(58, 127, 217, 0.753);
     font-weight: 700;
@@ -179,12 +183,21 @@ a {
     text-decoration: none;
 }
 
+div.table {
+    width: 50%;
+    /* Ширина div */
+    margin: 0 auto;
+    /* Автоматические отступы по бокам */
+    padding: 20px;
+    text-align: center;
+}
+
 .styled-table {
     border-collapse: collapse;
-    margin: 25px 25px;
+    /* margin: 25px 25px; */
     font-size: 1.4em;
     font-family: sans-serif;
-    min-width: 1000px;
+    /* min-width: 1000px; */
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.20);
 }
 
@@ -218,15 +231,141 @@ a {
     color: #0a67d8;
 }
 
-h1.table {
+/* h1.table {
     margin: 0px 500px;
     color: #0a67d8;
+} */
+nav.cl-link {
+    background-color: #9fa5a5;
+    padding: 10px;
+    text-align: center;
 }
-
 nav a.hidden {
     display: none;
 }
 
 ul.navbar li {
     display: inline-block;
+}
+
+.container {
+    padding: 20px;
+}
+
+section {
+    margin-bottom: 20px;
+    background-color: #e6f7ff;
+    /* Очень светло-голубой */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-container {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    /* width: 50%; */
+    /* Ширина div */
+    margin: 0 auto;
+    /* Автоматические отступы по бокам */
+    /* padding: 20px; */
+    text-align: center;
+}
+
+.form-container .positive h4 {
+    margin-bottom: 1.5rem;
+    /* font-size: 1.5rem; */
+    color: #286c15;
+    text-align: center;
+}
+
+.form-container h3 {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    color: #0a67d8;
+    text-align: center;
+}
+
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: #555555;
+}
+
+.form-group input {
+    width: 80%;
+    padding: 0.75rem;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #333333;
+    transition: border-color 0.3s ease;
+}
+
+.form-group textarea {
+    width: 80%;
+    padding: 0.75rem;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #333333;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+    border-color: #0a67d8;
+    outline: none;
+}
+
+.form-group textarea:focus {
+    border-color: #0a67d8;
+    outline: none;
+}
+
+.form-group input[type="number"] {
+    appearance: textfield;
+    /* Убирает стрелки в числовом поле */
+}
+
+.form-group input[type="number"]::-webkit-inner-spin-button,
+.form-group input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    /* Убирает стрелки в числовом поле для WebKit */
+    margin: 0;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.checkbox-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.checkbox-option input {
+    margin: 0;
+    cursor: pointer;
+}
+
+.checkbox-option label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    color: #333333;
+    cursor: pointer;
 }

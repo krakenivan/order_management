@@ -1,51 +1,15 @@
 {% extends "base.html" %}
 
-{% block title %} Добро пожаловать{% endblock title %}
+{% block title %} Управление кафе{% endblock title %}
 
 {% block content %}
-    <h1 class="home"> Добро пожаловать </h1>
-    <ul class="index">
-        <li>
-            <div></div>
-            <a class="btn-new" act="link" onclick="" data-action-name="link" style="" href=" {% url "product" %}"> Меню</a>
-            </div>
-        </li>
-        <li>
-            <div></div>
-            <a class="btn-new" act="link" onclick="" data-action-name="link" style="" href=" {% url "creating_order" %}"> Добавить заказ </a>
-            </div>
-        </li>
-        <li>
-            <div></div>
-            <a class="btn-new" act="link" onclick="" data-action-name="link" style="" href=" {% url "edit_order" %}"> Изменить заказ </a>
-            </div>
-        </li>
-        <li>
-            <div></div>
-            <a class="btn-new" act="link" onclick="" data-action-name="link" style="" href=" {% url "choosing_delete" %}"> Удалить заказ</a>
-            </div>
-        </li>
-        <li>
-            <div></div>
-            <a class="btn-new" act="link" onclick="" data-action-name="link" style="" href=" {% url "change_status" %}"> Сменить статус заказа</a>
-            </div>
-        </li>
-        <li>
-            <div></div>
-            <a class="btn-new" act="link" onclick="" data-action-name="link" style="" href=" {% url "find_order" %}"> Найти заказ </a>
-            </div>
-        </li>
-        <li>
-            <div></div>
-            <a class="btn-new" act="link" onclick="" data-action-name="link" style="" href=" {% url "show_orders" %}"> Показать все заказы</a>
-            </div>
-        </li>
-        <li>
-            <div></div>
-            <a class="btn-new" act="link" onclick="" data-action-name="link" style="" href=" {% url "calculation" %}"> Расчет за смену</a>
-            </div>
-        </li>
-        
-            
-    </ul>
+    <h1 class="home"> Управление кафе </h1>
+    {% include "includes/navbar.html"%}
+    <div class="container">
+        <section id="orders">
+            <h1>Заказы в работе</h1>
+            {% include "includes/table_orders.html"%}
+        </section>
+    </div>
+
 {% endblock  %}

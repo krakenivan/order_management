@@ -14,8 +14,10 @@ class Dishes(models.Model):
 
 class Order(models.Model):
     """модель заказа"""
+
     class Status(models.TextChoices):
         """класс перечисляемого поля"""
+
         EXPECTATION = "expectation", "В ожидание"
         DONE = "done", "Готово"
         PAID = "paid", "Оплачено"
@@ -23,12 +25,14 @@ class Order(models.Model):
     table_number = models.PositiveSmallIntegerField()
     items = models.ManyToManyField(Dishes)
     total_price = models.IntegerField(null=True, blank=True)
-    status = models.CharField(max_length=11, choices=Status.choices, default=Status.EXPECTATION)
+    status = models.CharField(
+        max_length=11, choices=Status.choices, default=Status.EXPECTATION
+    )
 
     def calculation(self):
         """метод вычисления суммы заказа"""
         dishes_table = Dishes.objects.filter(order_id=self.id)
-        sum_table = dishes_table.aggregate(Sum('price'))
+        sum_table = dishes_table.aggregate(Sum("price"))
         self.total_price = sum_table["price__sum"]
 
     def add_dishes(self):
@@ -44,5 +48,7 @@ class Order(models.Model):
 
 class Product(models.Model):
     """Меню"""
+
     name = models.CharField(max_length=50)
     ingredients = models.TextField(null=True, blank=True)
+    price = models.FloatField()

@@ -1,44 +1,43 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.urls import reverse_lazy
 from common.models import Product
-
-# Create your views here.
-def product(request) -> HttpResponse:
-    """Список меню"""
-    products = get_product()
-    return render(request, "list_product_app/product.html", context={'products':products})
-
-def add_product(request) -> HttpResponse:
-    """Добавление блюд в меню"""
-    products = get_product()
-    if request.method == "POST":
-        # Получаем данные из формы
-        data = request.POST.dict()
-        Product.objects.create(name=data['name'], ingredients=data['ingredients'])
-        return render(
-            request, "list_product_app/add_product.html", context={"products": products, "addet":"+"}
-        )
-    return render(
-        request, "list_product_app/add_product.html", context={"products": products}
-    )
-
-def delete_product(request) -> HttpResponse:
-    """Удаление блюда из меню"""
-    products = get_product()
-    if request.method == "POST":
-        # Получаем данные из формы
-        data = request.POST.dict()
-        Product.objects.filter(id=data['id']).delete()
-        return render(
-            request,
-            "list_product_app/delete_product.html",
-            context={"products": products, "deleted": "+"},
-        )
-    return render(
-        request, "list_product_app/delete_product.html", context={"products": products}
-    )
+from django.views.generic import ListView, CreateView, FormView
+from . import forms
+from django.contrib import messages
 
 
-def get_product():
-    """Функция запроса списка меню"""
-    return Product.objects.all()
+class ProductViews(ListView):
+    template_name = "list_product_app/product.html"
+    model = Product
+    context_object_name = "products"
+
+
+class AddProductViews(CreateView, ListView):
+    model = Product
+    form_class = forms.AddProductForm
+    template_name = "list_product_app/add_product.html"
+    context_object_name = "products"
+
+    def form_valid(self, form):
+        # Сохраняем форму
+        response = super().form_valid(form)
+        # Добавляем сообщение об успешном добавлении
+        messages.success(self.request, "Блюдо успешно добавлено!")
+        # Возвращаем ответ
+        return response
+
+    def get_success_url(self):
+        # Возвращаем URL текущей страницы
+        return self.request.path
+
+
+class DeleteProductViews(FormView):
+    form_class = forms.DeleteProductForm
+    template_name = "list_product_app/delete_product.html"
+    success_url = reverse_lazy("delete_product")
+
+    def form_valid(self, form):
+        # Получаем выбранные записи и удаляем их
+        select_product = form.cleaned_data["select_product"]
+        select_product.delete()
+        messages.success(self.request, "Блюдо успешно удалено!")
+        return super().form_valid(form)

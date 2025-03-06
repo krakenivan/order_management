@@ -1,0 +1,32 @@
+        <table class="styled-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Номер стола</th>
+                <th>Список блюд</th>
+                <th>Общая стоимость</th>
+                <th>Статус</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+
+            {% if order.get_status_display == 'Оплачено' %}
+                <tr class="active-row">
+            {% else %}
+                <tr>
+            {% endif %}
+
+            <td> {{ order.id }} </td>
+            <td> {{ order.table_number }} </td>
+            <td> 
+                {% for item in order.items.all %}
+                    {{ item.name }} <br>
+                {% endfor %} 
+            </td>
+            <td> {{ order.total_price }} </td>
+            <td> {{ order.get_status_display }} </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        </table>

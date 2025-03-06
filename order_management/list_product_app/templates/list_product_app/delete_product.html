@@ -3,18 +3,24 @@
 {% block title %}Удалить из меню{% endblock title %}
 
 {% block content %}
-    <h1> Выберите и удалите блюдо </h1>
-    <form method="post" action="{% url 'delete_product' %}">
-        {% csrf_token %}
-        <h3>
-            {% for product in products %}
-                <input type="radio" id="id" name="id" value= {{ product.id }}>
-                <label for="id"> Id - {{ product.id }}; Название блюда: <span class="blue">{{ product.name }}</span> </label><br>
+    <div class="form-container">
+        <h3>Удаление блюда</h3>
+        {% if messages %}
+            {% for message in messages %}
+                <h4 class="positive">
+                {{ message }}
+                </h4>
             {% endfor %}
-        </h3>
-        <button type="submit" class="delete_button">Удалить</button>
-    </form>
-    {% if deleted == "+" %}
-        <h3 class="positive">Блюдо удалено</h3>
-    {% endif %}
+        {% endif %}
+        <form method="post" action="{% url 'delete_product' %}">
+                {% csrf_token %}
+            {% for field in form %}
+                <div class='checkbox-group checkbox-option'>
+                    {{field.label_tag}}
+                    {{field}}
+                </div>
+            {% endfor %}
+            <button type="submit" class="delete_button">Удалить</button>
+        </form>
+    </div>
 {% endblock content %}

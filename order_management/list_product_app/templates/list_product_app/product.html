@@ -4,14 +4,14 @@
 
 {% block content %}
     {% include "includes/navbar.html" %}
-    <h1>Список меню</h1>
-    <h3>
+    <div class="table">
+        <h1>Список меню</h1>
         {% if not products %}
             <span class="negative">Меню пустое</span>
         {% else %}
             {% include "includes/menu.html" %}
         {% endif %}
-    </h3>
+    </div>
     <nav class="cl-link">
         <a href=" {% url "add_product" %} " data-hover="Добавить блюдо">Добавить блюдо</a> <br>
         <a href=" {% url "delete_product" %} " data-hover="Удалить блюдо">Удалить блюдо</a>

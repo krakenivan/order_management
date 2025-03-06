@@ -4,22 +4,29 @@
 
 {% block content %}
     {% include "includes/navbar.html" %}
-    <h2> Блюда в меню </h2>
-    <h3>{% include "includes/menu.html" %}</h3>
-    <form method="post" action="{% url 'add_product' %}">
-        {% csrf_token %}
-        <h3>
-            <label for="name">Название блюда</label>
-            <input type="text" id="name" name="name">
-            <br>
-            <label for="ingredients">Ингридиенты блюда</label>
-            <input type="text" id="ingredients" name="ingredients">
-            <br>
-            <button type="submit" class="add_button">Добавить</button>
-        </h3>
-    </form>
-    {% if addet == '+' %}
-        <h3 class="positive"> Блюдо добавлено </h3>
+    <div class="table">
+        <h1> Блюда в меню </h1>
+        {% include "includes/menu.html" %}
+    
+    {% if messages %}
+        {% for message in messages %}
+            <h3 class="positive">
+                {{ message }}
+            </h3>
+        {% endfor %}
     {% endif %}
-
+    </div>
+    <div class="form-container">
+        <h3>Добавление блюда</h3>
+        <form method="post" action="{% url 'add_product' %}">
+                {% csrf_token %}
+            {% for field in form %}
+                <div class='form-group'>
+                    {{field.label_tag}}
+                    {{field}}
+                </div>
+            {% endfor %}
+            <button type="submit" class="add_button">Добавить</button>
+        </form>
+    </div>
 {% endblock content %}
