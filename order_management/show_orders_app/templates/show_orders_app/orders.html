@@ -9,5 +9,11 @@
         <h1> Все заказы </h1>
         {% include "includes/table_orders.html" %}
     </div>
-
+        <nav class="cl-link">
+        <a href=" {% url "creating_order" %} " data-hover="Добавить заказ">Добавить заказ</a> <br>
+        <a href=" {% url "edit_order" %} " data-hover="Изменить заказ">Изменить заказ</a> <br>
+        <a href=" {% url "choosing_delete" %} " data-hover="Удалить заказ">Удалить заказ</a> <br>
+        <a href=" {% url "find_order" %} " data-hover="Найти заказ">Найти заказ</a> <br>
+        <a href=" {% url "change_status" %} " data-hover="Статус заказов">Статус заказов</a> <br>
+    </nav>
 {% endblock content %}

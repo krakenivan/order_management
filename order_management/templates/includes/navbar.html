@@ -1,15 +1,8 @@
 
 
 <nav class="cl-link">
-    <ul class="navbar">
-        <li><a href="{% url 'index' %}" class="{% if request.resolver_match.url_name == 'index' %}hidden{% endif %}" data-hover="Главная"> Главная </a></li>
-        <li><a href="{% url 'product' %}" class="{% if request.resolver_match.url_name == 'product' %}hidden{% endif %}" data-hover="Меню"> Меню </a></li>
-        <li><a href="{% url 'creating_order' %}" class="{% if request.resolver_match.url_name == 'creating_order' %}hidden{% endif %}" data-hover="Добавить заказ"> Добавить заказ </a></li>
-        <li><a href="{% url 'edit_order' %}" class="{% if request.resolver_match.url_name == 'edit_order' %}hidden{% endif %}" data-hover="Изменить заказ"> Изменить заказ </a></li>
-        <li><a href="{% url 'choosing_delete' %}" class="{% if request.resolver_match.url_name == 'choosing_delete' %}hidden{% endif %}" data-hover="Удалить заказ"> Удалить заказ </a></li>
-        <li><a href="{% url 'change_status' %}" class="{% if request.resolver_match.url_name == 'change_status' %}hidden{% endif %}" data-hover="Изменить статус"> Изменить статус </a></li>
-        <li><a href="{% url 'find_order' %}" class="{% if request.resolver_match.url_name == 'find_order' %}hidden{% endif %}" data-hover="Найти заказ"> Найти заказ </a></li>
-        <li><a href="{% url 'show_orders' %}" class="{% if request.resolver_match.url_name == 'show_orders' %}hidden{% endif %}" data-hover="Все заказы"> Все заказы </a></li>
-        <li><a href="{% url 'calculation' %}" class="{% if request.resolver_match.url_name == 'calculation' %}hidden{% endif %}" data-hover="Расчет выручки"> Расчет выручки </a></li>
-    </ul>
+        <a href="{% url 'index' %}" class="{% if request.resolver_match.url_name == 'index' %}hidden{% endif %}" data-hover="Главная"> Главная </a>
+        <a href="{% url 'product' %}" class="{% if request.resolver_match.url_name == 'product' %}hidden{% endif %}" data-hover="Меню"> Меню </a>
+        <a href="{% url 'show_orders' %}" class="{% if request.resolver_match.url_name == 'show_orders' %}hidden{% endif %}" data-hover="Заказы"> Заказы </a>
+        <a href="{% url 'calculation' %}" class="{% if request.resolver_match.url_name == 'calculation' %}hidden{% endif %}" data-hover="Расчет выручки"> Расчет выручки </a>
 </nav>

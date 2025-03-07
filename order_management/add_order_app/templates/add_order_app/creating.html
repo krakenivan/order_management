@@ -4,34 +4,17 @@
 
 {% block content %}
     {% include "includes/navbar.html"%}
-    <h1> Сформируйте и отправьте заказ </h1>
-    <form method="post" action="{% url 'add_order' %}">
-        {% csrf_token %}
-            <h3>
-                <label for="table">Номер стола</label>
-                    <select name='table' id='table'>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                    </select> 
-            </h3>
-            
-            <h3>Список блюд</h3>
-            <h4>
-                {% for product in products %}
-                    <label for={{product.name}}> {{product.name}} </label><br>
-                    Состав: {{product.ingredients}} <br>
-                    Цена: <input type="number" id={{product.name}} name={{product.name}} step="0.01" min="0" max="10000" placeholder="0.00"><br>
-                    <br>
-                {% endfor %}
-            </h4>
+    <div class="form-container container-left">
+        <h3>Добавление Заказа</h3>
+        <form method="post" action="{% url 'creating_order' %}">
+                {% csrf_token %}
+            {% for field in form %}
+                <div class='form-add-order'>
+                    {{ field.label_tag }} {{ field }}
+                </div>
+            {% endfor %}
             <button type="submit" class="add_button">Добавить</button>
-    </form>
+        </form>
+    </div>
+
 {% endblock content %}

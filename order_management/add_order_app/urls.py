@@ -2,6 +2,11 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("order/", views.creating_order, name="creating_order"),
-    path('add-order/', views.add_order, name='add_order'),
+    path("order/", views.CreateOrderViews.as_view(), name="creating_order"),
+    path("table_is_locked/", views.TableLockedViews.as_view(), name="table_is_locked"),
+    path(
+        "completing_add_order/",
+        views.CompletingAddOrderViews.as_view(),
+        name="completing_add_order",
+    ),
 ]

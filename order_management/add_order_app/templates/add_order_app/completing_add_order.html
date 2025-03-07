@@ -3,7 +3,11 @@
 {% block title %}Заказ добавлен{% endblock title %}
 
 {% block content %}
-    <h1> Заказ добавлен</h1>
+    {% include "includes/navbar.html"%}
+    <div class="table">
+        <h1 class='positive'> Заказ добавлен</h1>
+        {% include "includes/table_orders.html" %}
+    </div>
     <nav class="cl-link">
         <a href=" {% url 'creating_order' %} " data-hover="Сделать следующий">Сделать следующий</a>
     </nav>

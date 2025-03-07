@@ -116,6 +116,7 @@ span.structure{
     color: rgba(58, 127, 217, 0.753);
     font-weight: 700;
     text-shadow: none;
+    margin: 0 25px;
 }
 
 
@@ -136,7 +137,7 @@ span.structure{
     opacity: 0;
 }
 
-ul.index {
+/* ul.index {
     -webkit-column-count: 1;
     -moz-column-count: 1;
     column-count: 1;
@@ -155,7 +156,7 @@ ul.index li {
     width: 100%;
     font-size: 2rem;
     padding: 1rem 1rem;
-}
+} */
 
 h1.home {
     color: #0a67d8;
@@ -244,9 +245,9 @@ nav a.hidden {
     display: none;
 }
 
-ul.navbar li {
+/* ul.navbar li {
     display: inline-block;
-}
+} */
 
 .container {
     padding: 20px;
@@ -343,6 +344,32 @@ section {
     /* Убирает стрелки в числовом поле для WebKit */
     margin: 0;
 }
+.form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #333333;
+    background-color: #ffffff;
+    appearance: none;
+    /* Убирает стандартные стрелки */
+    -webkit-appearance: none;
+    /* Для Safari */
+    -moz-appearance: none;
+    /* Для Firefox */
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23333333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 12px;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.form-group select:focus {
+    border-color: #007bff;
+    outline: none;
+}
 
 .checkbox-group {
     display: flex;
@@ -368,4 +395,74 @@ section {
     font-size: 1.5rem;
     color: #333333;
     cursor: pointer;
+}
+
+.form-add-order {
+    /* margin-bottom: 1.5rem; */
+}
+
+.form-add-order label {
+    /* display: block; */
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: #555555;
+}
+
+.form-add-order input {
+    width: 10px;
+    padding: 0.75rem;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #333333;
+    transition: border-color 0.3s ease;
+}
+
+.form-add-order input:focus {
+    border-color: #0a67d8;
+    outline: none;
+}
+
+
+.form-add-order input[type="number"] {
+    appearance: textfield;
+    /* Убирает стрелки в числовом поле */
+}
+
+.form-add-order input[type="number"]::-webkit-inner-spin-button,
+.form-add-order input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    /* Убирает стрелки в числовом поле для WebKit */
+    margin: 0;
+}
+
+.form-add-order select {
+    /* width: 100%; */
+    padding: 0.75rem;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #333333;
+    background-color: #ffffff;
+    appearance: none;
+    /* Убирает стандартные стрелки */
+    -webkit-appearance: none;
+    /* Для Safari */
+    -moz-appearance: none;
+    /* Для Firefox */
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23333333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 0rem center;
+    background-size: 14px;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.form-add-order select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.container-left {
+    text-align: left
 }
