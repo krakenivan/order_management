@@ -4,11 +4,14 @@
     <table class="styled-table">
     <thead>
         <tr>
-            <th>ID</th>
+            <th>Номер заказа</th>
             <th>Номер стола</th>
             <th>Список блюд</th>
             <th>Общая стоимость</th>
             <th>Статус</th>
+            {% if edit or delete%}
+                <th> Выбрать</th>
+            {% endif %}
         </tr>
     </thead>
     <tbody>
@@ -29,6 +32,11 @@
         </td>
         <td> {{ order.total_price }} </td>
         <td> {{ order.get_status_display }} </td>
+        {% if edit %}
+            <td><a href=" {% url 'edit_order' order.id %} " class="edit-link"> Изменить</a></td>
+        {% elif delete %}
+            <td><a href=" {% url 'delete_order' order.id %} " class="delete-link"> Удалить</a></td>
+        {% endif %}
         </tr>
     {% endfor %}
     </tbody>

@@ -2,5 +2,5 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("find/", views.find_order, name="find_order"),
+    path("find/", views.FindOrderViews.as_view(), name="find_order"),
 ]

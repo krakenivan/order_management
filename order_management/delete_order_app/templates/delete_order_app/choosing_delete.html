@@ -1,27 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}Удаление заказа{% endblock title %}
+{% block title %}Удаление заказов{% endblock title %}
 
 {% block content %}
     {% include "includes/navbar.html"%}
-    <h1> Выберите и удалите заказ </h1>
-        <form method="post" action="{% url 'delete' %}">
-            {% csrf_token %}
-            {% for order in orders %}
-                <h3><input type="radio" id="delete" name="delete" value= {{ order.id }}>
-                    <label for="delete"> Id - {{ order.id }}; Номер стола {{ order.table_number }}; 
-                        Блюда в заказе
-                        {% for item in order.items.all %}
-                        {% if forloop.last %}
-                            {{ item.name }};
-                        {% else %}
-                            {{ item.name }},
-                        {% endif %}
-                        {% endfor %}
-                        Статус: {{ order.status }}
-                    </label><br>
-                </h3>
-            {% endfor %}
-            <button type="submit" class="delete_button">Удалить</button> 
-        </form>
+    
+    <div class="table">
+        <h1>Выберите заказ для удаления</h1>
+        {% include "includes/table_orders.html" with delete=True %}
+    </div>
 {% endblock content %}

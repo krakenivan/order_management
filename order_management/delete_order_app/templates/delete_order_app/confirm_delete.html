@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Подтвердите удаление{% endblock title %}
+
+{% block content %}
+
+    <div class="form-container">
+       <h3> Номер стола: <span class="structure dark">{{order.table_number}}</span></h3> 
+        <h3>Статус: <span class="structure dark">{{order.get_status_display}}</span></h3> 
+        <h3>Блюда в заказе:</h3>
+        {% for dish in order.dishes_set.all %}
+            <span class="structure dark">{{dish.product.name}}</span>
+        {% endfor %}
+    </div>
+    <form method='post'>
+        {% csrf_token %}
+        <div class="center">
+            <span style="padding:25px;"><button type="submit" class="delete_button cursor">Удалить</button></span>
+            <span style="padding:25px;"><a href=" {% url 'show_orders' %} " class="edit-link"> Oтменить </a></span>
+        </div>
+    </form>
+{% endblock content %}

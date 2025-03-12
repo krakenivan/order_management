@@ -1,94 +1,57 @@
-from django.http import HttpResponse
-from django.shortcuts import render
-from common.models import Order, Dishes, Product
-
-# Create your views here.
-def edit_order(request) -> HttpResponse:
-    """Изменение заказа"""
-    edit_id = None
-    if request.method == "POST":
-        # Получаем данные из формы
-        data = request.POST.dict()
-        data_item = {
-            key: val
-            for key, val in data.items()
-            if key not in ["csrfmiddlewaretoken", "table_number", "id"] and val
-        }
-        order: Order = Order.objects.get(id=data['id'])
-        edit_id = int(order.id)  # id изменяемого заказа
-        if order.table_number != data['table_number']:  # при изменение стола
-            order.table_number = data["table_number"]
-            order.save(update_fields=["table_number"])
-        order.items.exclude(name__in=data_item).delete()  # удаление блюд при изменение
-        items = order.items.all()
-        for dish in items:  # изменение цены блюда
-            if items.get(name=dish.name).price != data[dish.name]:
-                dish.price = data[dish.name]
-                dish.save(update_fields=["price"])
-        for item in data_item.keys():  # добавление блюда в заказ
-            if item not in items.values_list("name", flat=True):
-                Dishes.objects.create(name=item, price=data[item], order_id=order)
-        order.fill()
-    orders = Order.objects.exclude(status="paid")
-    list_table: list[int] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] # список столов
-    # формирование списка словарей с нужными данными по заказу
-    orders_data: list[dict] = []
-    for order in orders:
-        dishes = Dishes.objects.filter(order=order)  # блюда в заказе
-        ordered_names = dishes.values_list("name", flat=True)
-        remaining_products = Product.objects.exclude(name__in=ordered_names)  # блюда вне заказа
-        orders_data.append(
-            {"order": order, "dishes": dishes, "remaining_products": remaining_products}
-        )
-    return render(
-        request,
-        "edit_order_app/edit_order.html",
-        context={"orders_data": orders_data, "list_table": list_table, "edit_id":edit_id},
-    )
+from django.urls import reverse_lazy
+from common.models import Order, Dishes, Table
+from django.views.generic import UpdateView, ListView
+from . import forms
+from django.core.exceptions import ObjectDoesNotExist
 
 
-def edit_one_order(request, order_id) -> HttpResponse:
-    """Изменение одного переданного заказа
+class ChoiceOfEditingOrderViews(ListView):
+    model = Order
+    template_name = "edit_order_app/choice_edit.html"
+    context_object_name = "orders"
 
-    :param order_id: id переданного заказа
-    :return: HttpResponse
-    """
-    edit_id = None
-    order: Order = Order.objects.get(id=order_id)
-    list_table: list[int] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    dishes = Dishes.objects.filter(order=order)
-    ordered_names = dishes.values_list("name", flat=True)
-    remaining_products = Product.objects.exclude(name__in=ordered_names)
-    dishes_data = {"dishes": dishes, "remaining_products": remaining_products}
-    if request.method == "POST":
-        # Получаем данные из формы
-        data = request.POST.dict()
-        data_item = {
-            key: val
-            for key, val in data.items()
-            if key not in ["csrfmiddlewaretoken", "table_number", "id"] and val
-        }
-        edit_id = int(order.id)
-        if order.table_number != data["table_number"]:
-            order.table_number = data["table_number"]
-            order.save(update_fields=["table_number"])
-        order.items.exclude(name__in=data_item).delete()
-        items = order.items.all()
-        for dish in items:
-            if items.get(name=dish.name).price != data[dish.name]:
-                dish.price = data[dish.name]
-                dish.save(update_fields=["price"])
-        for item in data_item.keys():
-            if item not in items.values_list("name", flat=True):
-                Dishes.objects.create(name=item, price=data[item], order_id=order)
-        order.fill()
-    return render(
-        request,
-        "edit_order_app/one_order.html",
-        context={
-            "dishes_data": dishes_data,
-            "list_table": list_table,
-            "edit_id": edit_id,
-            "order": order,
-        },
-    )
+
+class EditOrderViews(UpdateView):
+    model = Order
+    form_class = forms.EditOrderForm
+    template_name = "edit_order_app/edit_order.html"
+    success_url = reverse_lazy("choice_edit")
+
+    def get_object(self, queryset=None):
+        # Сохраняем объект до изменений
+        old_order = super().get_object(queryset)
+        self.old_table = old_order.table_number
+        return old_order
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        order = form.instance
+        new_table = form.cleaned_data.get("table_number")
+        if self.old_table != new_table:
+            self.old_table.status = Table.Status.FREE
+            self.old_table.save()
+            new_table.status = Table.Status.BUSY
+            new_table.save()
+        dishes = order.dishes_set.all()
+        for field_name, value in form.cleaned_data.items():
+            if field_name.startswith("product_"):
+                product_id = int(field_name.split("_")[1])
+                quantity_field = f"quantity_{product_id}"
+                quantity = form.cleaned_data.get(quantity_field)
+                try:
+                    dish = dishes.get(product_id=product_id)
+                except ObjectDoesNotExist:
+                    dish = Dishes.objects.create(
+                        product_id=product_id, quantity=quantity, order_id=order
+                    )
+                finally:
+                    if value:
+                        dish.quantity = quantity
+                        dish.save()
+                    else:
+                        dish.delete()
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        print("Форма не прошла валидацию:", form.errors)
+        return super().form_invalid(form)

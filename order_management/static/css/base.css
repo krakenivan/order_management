@@ -111,7 +111,9 @@ span.structure{
 .blue{
     color: #0a67d8;
 }
-
+.dark{
+    color: #020202;
+}
 .cl-link a {
     color: rgba(58, 127, 217, 0.753);
     font-weight: 700;
@@ -271,7 +273,7 @@ section {
     max-width: 400px;
     /* width: 50%; */
     /* Ширина div */
-    margin: 0 auto;
+    margin: 15px auto 15px auto;
     /* Автоматические отступы по бокам */
     /* padding: 20px; */
     text-align: center;
@@ -409,7 +411,7 @@ section {
 }
 
 .form-add-order input {
-    width: 10px;
+    width: 20px;
     padding: 0.75rem;
     border: 1px solid #dddddd;
     border-radius: 5px;
@@ -465,4 +467,79 @@ section {
 
 .container-left {
     text-align: left
+}
+
+.info {
+    color: #007bff;
+    padding: 10px 20px;
+}
+
+.edit-link {
+    text-decoration: none;
+    display: inline-block;
+    width: 140px;
+    /* height: 50px; */
+    line-height: 45px;
+    border-radius: 45px;
+    /* margin: 10px 5px; */
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 2px;
+    font-weight: 600;
+    color: #f1eeed;
+    background: #0a67d8;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, .1);
+    transition: .3s;
+}
+
+.edit-link:hover {
+    background: #e5e22e;
+    box-shadow: 0 15px 20px rgba(217, 229, 46, 0.4);
+    color: rgb(8, 8, 8);
+    transform: translateY(-5px);
+}
+.delete-link {
+    text-decoration: none;
+    display: inline-block;
+    width: 140px;
+    /* height: 50px; */
+    line-height: 45px;
+    border-radius: 45px;
+    /* margin: 10px 5px; */
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 2px;
+    font-weight: 600;
+    color: #f1eeed;
+    background: #0a67d8;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, .1);
+    transition: .3s;
+}
+
+.delete-link:hover {
+    background: #e5502e;
+    box-shadow: 0 15px 20px rgba(229, 98, 46, 0.4);
+    color: rgb(8, 8, 8);
+    transform: translateY(-5px);
+}
+
+div.center{
+    text-align: center;
+    padding: 15px;
+}
+
+.cursor:hover{
+    cursor: pointer
+}
+
+.large-input input {
+    width: 40px;
+}
+
+.large-margins{
+
 }

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Изменение заказов{% endblock title %}
+
+{% block content %}
+    {% include "includes/navbar.html"%}
+    
+    <div class="table">
+        <h1>Выберите заказ для изменения</h1>
+        {% include "includes/table_orders.html" with edit=True %}
+    </div>
+{% endblock content %}

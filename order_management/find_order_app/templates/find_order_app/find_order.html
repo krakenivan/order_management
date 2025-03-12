@@ -2,33 +2,91 @@
 
 {% block title %}Поиск заказов{% endblock title %}
 
+{% block script %} 
+    <script>
+        function updateForm() {
+            const select = document.getElementById("select").value;
+
+            const orderIdField = document.getElementById("order-id-field");
+            const orderIdLabel = document.getElementById("order-id-label");
+            const orderTableNumberField = document.getElementById("order-table-number-field");
+            const orderTableNumberLabel = document.getElementById("order-table-number-label");
+            const orderStatusField = document.getElementById("order-status-field");
+            const orderStatusLabel = document.getElementById("order-status-label");
+
+            orderIdField.style.display = "none";
+            orderIdLabel.style.display = "none";
+            orderTableNumberField.style.display = "none";
+            orderTableNumberLabel.style.display = "none";
+            orderStatusField.style.display = "none";
+            orderStatusLabel.style.display = "none";
+
+            if (select === "id") {
+                orderIdField.style.display = "inline-block";
+                orderIdLabel.style.display = "block";
+                orderIdField.setAttribute("required", "required");
+            } else if (select === "table_number") {
+                orderTableNumberField.style.display = "inline-block";
+                orderTableNumberLabel.style.display = "block";
+                orderTableNumberField.setAttribute("required", "required");
+            } else if (select === "status") {
+                orderStatusField.style.display = "inline-block";
+                orderStatusLabel.style.display = "block";
+                orderStatusField.setAttribute("required", "required");
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            updateForm();
+            document.getElementById("select").addEventListener("change", updateForm);
+        });
+    </script>
+{% endblock script %}
+
 {% block content %}
     {% include "includes/navbar.html"%}
-    <h1> Выберите вариант поиска </h1>
-        <form method="post" action="{% url 'find_order' %}">
-            {% csrf_token %}
-            <h3>
-                <select name='select' id='select'>
-                    <option value="table_number">Номер стола</option>
-                    <option value="status">Статус</option>
-                </select>
-                <label for="find"></label>
-                <input type="text" id="find" name="find">
-                <button type="submit" class="add_button">Искать</button>
-            </h3> 
-        </form>
-    <h3>
-        {% for order in orders %}
-            Id - <span class="blue">{{ order.id }}</span> <br>
-            Номер стола - <span class="blue">{{ order.table_number }}</span> <br>
-            Статус - <span class="blue">{{ order.get_status_display }}</span> <br>
-            {% if order.get_status_display != 'Оплачено'%}
-                К оплате - <span class="blue">{{ order.total_price }}</span><br>
-            {% endif %}
-            Блюда в заказе:
-            <h4>{% for item in order.items.all %}
-                        {{ item.name }} <br>
-            {% endfor %}</h4>
-        {% endfor %}
-    </h3>
+<div class="form-container">
+    <h3>Поиск Заказа</h3>
+    <form method="post">
+        {% csrf_token %}
+        <div class='form-add-order'>
+            {{ form.select.label_tag }}
+            {{ form.select }}
+        </div>
+        <div class='form-add-order large-input' id="order-id-label">
+            {{ form.order_id_field.label_tag }}
+            {{ form.order_id_field }}
+        </div>
+        <div class='form-add-order large-input' id="order-table-number-label">
+            {{ form.order_table_number_field.label_tag }}
+            {{ form.order_table_number_field }}
+        </div>
+        <div class='form-add-order' id="order-status-label">
+            {{ form.order_status_field.label_tag }}
+            {{ form.order_status_field }}
+        </div>
+        
+        <button type="submit" class="add_button">Искать</button>
+    </form>
+</div>
+<div class='center'><h3 class = "blue"> {{message}} </h3></div>
+{% if found %}
+    {% for order in found %}
+        <div class="form-container">
+            <h3> Номер заказа: <span class="structure dark">{{order.id}}</span></h3>
+            <h3> Номер стола: <span class="structure dark">{{order.table_number}}</span></h3> 
+            <h3>Статус: <span class="structure dark">{{order.get_status_display}}</span></h3> 
+            <h3>Блюда в заказе:</h3>
+            {% for dish in order.dishes_set.all %}
+                <span class="structure dark">{{dish.product.name}}</span>
+            {% endfor %}
+            <br>
+            <br>
+            <div>
+                <span><a href=" {% url 'edit_order' order.id %} " class="edit-link" style="margin: 8px;"> Изменить </a></span> <br>
+                <span><a href=" {% url 'delete_order' order.id %} " class="delete-link"> Удалить </a></span>
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}
 {% endblock content %}

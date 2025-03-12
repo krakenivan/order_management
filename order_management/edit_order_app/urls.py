@@ -2,6 +2,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("edit/", views.edit_order, name="edit_order"),
-    path("one-edit/<int:order_id>", views.edit_one_order, name="edit_one_order"),
+    path("edit/", views.ChoiceOfEditingOrderViews.as_view(), name="choice_edit"),
+    path("edit-order/<pk>", views.EditOrderViews.as_view(), name="edit_order"),
 ]

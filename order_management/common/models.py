@@ -10,7 +10,7 @@ class Dishes(models.Model):
     product = models.ForeignKey("Product", on_delete=models.PROTECT)
     quantity = models.PositiveIntegerField()
     total_price = models.PositiveIntegerField(null=True, blank=True)
-    order_id = models.ForeignKey("Order", on_delete=models.PROTECT)
+    order_id = models.ForeignKey("Order", on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs) -> None:
         self.total_price = self.product.price * self.quantity
