@@ -1,4 +1,53 @@
 {% extends "base.html" %}
+
+{% block title %}Изменение статуса{% endblock title %}
+
+{% block content %}
+    {% include "includes/navbar.html"%}
+    
+    <form method='post'>
+        {% csrf_token %}
+        <div class="table reducing-width">
+            <h1>Выберите статус заказа</h1>
+            {% if not orders %}
+                <span class="negative"><h2>Заказов нет</h2></span>
+            {% else %}
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Номер заказа</th>
+                            <th>Номер стола</th>
+                            <th>Список блюд</th>
+                            <th>Общая стоимость</th>
+                            <th>Статус</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders%}
+                            {% if order.order.get_status_display == 'Оплачено' %}
+                                <tr class="active-row">
+                            {% else %}
+                                <tr>
+                            {% endif %}
+    
+                            <td> {{ order.order.id }} </td>
+                            <td> {{ order.order.table_number }} </td>
+                            <td> 
+                                {% for item in order.order.dishes_set.all %}
+                                    {{ item.product.name }} <br>
+                                {% endfor %} 
+                            </td>
+                            <td> {{ order.order.total_price }} </td>
+                            <td> <div class="form-add-order">{{ order.status_form.status }}</div> </td>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+        <div class='center'><button type="submit" class="add_button">Сохранить</button></div>
+    </form>
+{% endblock content %}
+{% comment %} {% extends "base.html" %}
 {% load change_status_filter %}
 
 {% block title %}Изменение статуса{% endblock title %}
@@ -19,12 +68,8 @@
                                 {{ item.name }},
                             {% endif %}
                         {% endfor %}
-                        <span class="blue">Текущий статус:</span>
-                        <select name={{ order.id }} >
-                            {% for status in stat|statedit:order.status %}
-                                <option value= {{status}} >{{status|statdisplay}}</option>
-                            {% endfor %}
-                        </select>
+                        {{ form }}
+                        
                     </label><br>
                 </h3> 
             {% endfor %}
@@ -35,4 +80,4 @@
             {% endif %}
             <button type="submit" class="save_button">Сохранить</button>
         </form>
-{% endblock content %}
+{% endblock content %} {% endcomment %}

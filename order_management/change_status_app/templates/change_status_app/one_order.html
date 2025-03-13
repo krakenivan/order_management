@@ -4,37 +4,18 @@
 {% block title %}Изменение статуса{% endblock title %}
 
 {% block content %}
-    <h1> Выберите статус для заказа </h1>
+    {% include "includes/navbar.html"%}
     <form method="post" action="{% url 'change_one_status' order.id %}">
         {% csrf_token %}
-        <h3>
-            <label for={{ order.id }}> Id - {{ order.id }}; Номер стола {{ order.table_number }}; 
-                Блюда в заказе:
-                {% for item in order.items.all %}
-                    {% if forloop.last %}
-                        {{ item.name }};
-                    {% else %}
-                        {{ item.name }},
-                    {% endif %}
+        <div class="center blue"><h1> Выберите статус для заказа </h1></div>
+        <div class="form-container">
+            <h3> Номер стола: <span class="structure dark">{{order.table_number}}</span></h3> 
+            <h3>Блюда в заказе:</h3>
+                {% for dish in order.dishes_set.all %}
+                    <span class="structure dark">{{dish.product.name}}</span>
                 {% endfor %}
-                <span class="blue">Текущий статус:</span>
-                <select name={{ order.id }} >
-                    {% for status in stat|statedit:order.status %}
-                        <option value= {{status}} >{{status|statdisplay}}</option>
-                    {% endfor %}
-                </select>
-            </label><br>
-        </h3> 
-        {% if not changes %}
-            <button type="submit" class="save_button">Сохранить</button> 
-        {% endif %}
-        {% if changes == '+' %}
-            <h3 class='positive'>Изменения сохранены</h3>
-            <nav class="cl-link">
-                <a href=" {% url 'creating_order' %} " data-hover="Добавить новый заказ">Добавить новый заказ</a>
-            </nav>
-        {% elif changes == '-' %}
-            <h3 class='negative'>Изменения не выбраны</h3>
-        {% endif %}
+            <h3>Статус: <div class="form-add-order">{{ status_form.status }}</div></h3>
+            <button type="submit" class="add_button">Сохранить</button>
+        </div>
     </form>
 {% endblock content %}

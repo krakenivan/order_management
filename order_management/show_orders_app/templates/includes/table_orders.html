@@ -31,7 +31,11 @@
             {% endfor %} 
         </td>
         <td> {{ order.total_price }} </td>
-        <td> {{ order.get_status_display }} </td>
+        {% if change_st %}
+            <td> {{ order.status_form.status }} </td>
+        {% else %}
+            <td> {{ order.get_status_display }} </td>
+        {% endif %}
         {% if edit %}
             <td><a href=" {% url 'edit_order' order.id %} " class="edit-link"> Изменить</a></td>
         {% elif delete %}

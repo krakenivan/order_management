@@ -139,27 +139,6 @@ span.structure{
     opacity: 0;
 }
 
-/* ul.index {
-    -webkit-column-count: 1;
-    -moz-column-count: 1;
-    column-count: 1;
-    list-style-type: none;
-    width: 90%;
-    max-width: 35rem;
-    border-radius: 20px;
-    margin: 2rem auto;
-    padding: 1px;
-    padding-right: 10px;
-    background-color: #f1f1f1;
-}
-
-ul.index li {
-    text-align: center;
-    width: 100%;
-    font-size: 2rem;
-    padding: 1rem 1rem;
-} */
-
 h1.home {
     color: #0a67d8;
     text-align: center;
@@ -187,12 +166,15 @@ a {
 }
 
 div.table {
-    width: 50%;
+    width: 70%;
     /* Ширина div */
     margin: 0 auto;
     /* Автоматические отступы по бокам */
     padding: 20px;
     text-align: center;
+}
+div.reducing-width {
+    width: 60%;
 }
 
 .styled-table {
@@ -538,8 +520,4 @@ div.center{
 
 .large-input input {
     width: 40px;
-}
-
-.large-margins{
-
 }

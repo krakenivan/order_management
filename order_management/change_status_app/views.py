@@ -1,82 +1,52 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import redirect
 from common.models import Order
-# Create your views here.
+from django.views.generic import ListView, DetailView
+from . import forms
 
-def change_status(request) -> HttpResponse:
-    """Смена статуса заказа"""
-    list_status = Order.Status.values  # список доступных значений поля статус
-    orders = Order.objects.all()
-    if request.method == "POST":
-        # Получаем данные из формы
-        post_data = request.POST.dict()
-        data = {
-            key: val
-            for key, val in post_data.items()
-            if key != "csrfmiddlewaretoken" and val
-        }
-        changes = '-'
-        for id, value in data.items():
-            order: Order = Order.objects.get(id=id)
-            if order.status == value:
-                continue
-            else:
-                new_status = None
-                if value == "expectation":
-                    new_status = Order.Status.EXPECTATION
-                if value == "done":
-                    new_status = Order.Status.DONE
-                if value == "paid":
-                    new_status = Order.Status.PAID
-                order.status = new_status
-                order.save()
-                changes = '+'
-        return render(
-            request,
-            "change_status_app/change_status.html",
-            context={"orders": orders, "stat": list_status, "changes": changes},
+
+class ChangeOrderStatusViews(ListView):
+    model = Order
+    template_name = "change_status_app/change_status.html"
+    context_object_name = "orders"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["orders"] = [
+            {
+                "order": order,
+                "status_form": forms.StatusOrderForm(
+                    prefix=str(order.id), instance=order
+                ),
+            }
+            for order in context["orders"]
+        ]
+        return context
+
+    def post(self, request, *args, **kwargs):
+        for order in self.get_queryset():
+            form = forms.StatusOrderForm(
+                request.POST, prefix=str(order.id), instance=order
+            )
+            if form.is_valid():
+                form.save()
+        return redirect("change_status")
+
+
+class ChangeOneOrderStatusViews(DetailView):
+    template_name = "change_status_app/one_order.html"
+    model = Order
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        order = context["order"]
+        context["status_form"] = forms.StatusOrderForm(
+            prefix=str(order.id), instance=order
         )
-    return render(request, "change_status_app/change_status.html", context={'orders':orders, 'stat':list_status})
+        return context
 
-def change_one_status(request, order_id) -> HttpResponse:
-    """Изменение статуса переданного заказа
-
-    :param order_id: id обрабатываемого заказа
-    :return: HttpResponse
-    """
-    list_status = Order.Status.values
-    order: Order = Order.objects.get(id=order_id)
-    if request.method == "POST":
-        # Получаем данные из формы
-        post_data = request.POST.dict()
-        data = {
-            key: val
-            for key, val in post_data.items()
-            if key != "csrfmiddlewaretoken" and val
-        }
-        changes = "-"
-        for id, value in data.items():
-            order = Order.objects.get(id=id)
-            if order.status == value:
-                continue
-            else:
-                new_status = None
-                if value == "expectation":
-                    new_status = Order.Status.EXPECTATION
-                if value == "done":
-                    new_status = Order.Status.DONE
-                if value == "paid":
-                    new_status = Order.Status.PAID
-                order.status = new_status
-                order.save()
-                changes = "+"
-        return render(
-            request,
-            "change_status_app/one_order.html",
-            context={"order": order, "stat": list_status, "changes": changes},
-        )
-    return render(
-        request,
-        "change_status_app/one_order.html",
-        context={"order": order, "stat": list_status},
-    )
+    def post(self, request, *args, **kwargs):
+        order = Order.objects.get(pk=kwargs["pk"])
+        form = forms.StatusOrderForm(request.POST, prefix=str(order.id), instance=order)
+        if form.is_valid():
+            form.save()
+        return redirect("change_status")
