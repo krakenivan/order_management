@@ -1,21 +1,50 @@
 {% extends "base.html" %}
 
+{% block link %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"> 
+{% endblock link %}
+{% block script %}
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ru.js" defer></script>
+    <script defer>
+        document.addEventListener("DOMContentLoaded", function() {
+            flatpickr(".datepicker", {
+                dateFormat: "Y-m-d",
+                locale: "ru",
+            });
+        });
+    </script>
+{% endblock script %}
 {% block title %}Расчет выручки{% endblock title %}
 
 {% block content %}
     {% include "includes/navbar.html"%}
-    <h1>Расчет выручки</h1>
-    <h3>Всего заказов - <span class="blue">{{count_all}}</span> </h3>
-    <h3>Оплачено на - <span class="blue">{{calculat_paid}}</span> </h3>
-    <h3>Количество не оплаченных - <span class="blue">{{count_unpaid}}</span> </h3>
-    <h3> Неоплаченные заказы: </h3>
-    {% for order in unpaid %}
-        <h4>
-            <div class='order'>
-                ID - {{ order.id }} <br>
-                Стол номер - {{ order.table_number }} <br>
-                Сумма заказа - {{ order.total_price }} <br>
+    {% include "includes/datetime.html"%}
+    <div class="form-container">
+        <h4 class='blue'> Фильтр </h4>
+        <form method="get">
+            <div class='filter-form'>
+                {{ form.start_date.label_tag }}
+                {{ form.start_date }}
             </div>
-        </h4>
-    {% endfor %}
+            <div class='filter-form'>
+                {{ form.end_date.label_tag }}
+                {{ form.end_date }}
+            </div>
+            <button type="submit" class='save_button'>Применить</button>
+        </form>
+    </div>
+
+    {% if filter %}
+    <div class='center'><h1 class='blue'> {{name}} </h1></div>
+    <div class='table-analytics'>
+        {% include "includes/analytics.html"%}
+    </div>
+    <div class="table reducing-width">
+        <h1> Неоплаченные заказы </h1>
+        {% include "includes/table_orders.html" %}
+    </div>
+    {% else %}
+    <div class='blue center'><h2>Заказов нет</h2></div>
+    {% endif %}
 {% endblock content %}

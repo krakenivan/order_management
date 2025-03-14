@@ -111,8 +111,14 @@ span.structure{
 .blue{
     color: #0a67d8;
 }
+.red{
+    color: #d8480a;
+}
 .dark{
     color: #020202;
+}
+.bold {
+    font-weight: bold;
 }
 .cl-link a {
     color: rgba(58, 127, 217, 0.753);
@@ -173,6 +179,14 @@ div.table {
     padding: 20px;
     text-align: center;
 }
+
+div.table-analytics{
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    justify-content: center;    
+}
+
 div.reducing-width {
     width: 60%;
 }
@@ -197,6 +211,10 @@ div.reducing-width {
     padding: 12px 15px;
     text-align: center;
 
+}
+
+.styled-table td.left {
+    text-align: left;
 }
 
 .styled-table tbody tr {
@@ -520,4 +538,45 @@ div.center{
 
 .large-input input {
     width: 40px;
+}
+
+.datetime {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #0a67d8;
+    padding: 1rem;
+    border: 1px solid #9fa5a5;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    margin: 15px auto 15px auto;
+}
+
+.filter-form {
+    margin-bottom: 1.5rem;
+}
+
+.filter-form label {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: #555555;
+}
+
+.filter-form input {
+    width: 50%;
+    padding: 0.75rem;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #333333;
+    transition: border-color 0.3s ease;
+}
+
+.filter-form input:focus {
+    border-color: #0a67d8;
+    outline: none;
 }

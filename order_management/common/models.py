@@ -34,6 +34,7 @@ class Order(models.Model):
     status = models.CharField(
         max_length=11, choices=Status.choices, default=Status.EXPECTATION
     )
+    datetime = models.DateTimeField(auto_now_add=True, blank=True)
 
     def calculation_total_price(self):
         """метод вычисления суммы заказа"""
