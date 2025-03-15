@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Столы{% endblock title %}
+
+{% block content %}
+    {% include "includes/navbar.html"%}
+    {% include "includes/datetime.html"%}
+    <div class='center'><h1 class='blue'> Все столы </h1></div>
+    <div class="table">
+        {% include "includes/show_tables.html" with edit=True delete=True %}
+    </div>
+    <div class='center'><a href=" {% url "add_table" %} " class="add-link"> Добавить</a></div>
+{% endblock content %}

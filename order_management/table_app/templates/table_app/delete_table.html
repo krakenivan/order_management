@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Подтвердите удаление{% endblock title %}
+
+{% block content %}
+    <div class="center blue"><h1> Подтвердите удаление стола </h1></div>
+    <div class="form-container">
+        <h3> Номер стола: <span class="structure dark">{{table.number}}</span></h3> 
+        <h3> Количество мест: <span class="structure dark">{{table.places}}</span></h3> 
+        <h3>Статус: <span class="structure dark">{{table.get_status_display}}</span></h3> 
+    </div>
+    <form method='post'>
+        {% csrf_token %}
+        <div class="center">
+            <span style="padding:25px;"><button type="submit" class="delete_button cursor">Удалить</button></span>
+            <span style="padding:25px;"><a href=" {% url 'table' %} " class="edit-link"> Oтменить </a></span>
+        </div>
+    </form>
+{% endblock content %}

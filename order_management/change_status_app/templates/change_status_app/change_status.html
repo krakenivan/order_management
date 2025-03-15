@@ -7,8 +7,8 @@
     
     <form method='post'>
         {% csrf_token %}
+        <div class='center'><h1 class='blue'> Выберите статус заказа </h1></div>
         <div class="table reducing-width">
-            <h1>Выберите статус заказа</h1>
             {% if not orders %}
                 <span class="negative"><h2>Заказов нет</h2></span>
             {% else %}

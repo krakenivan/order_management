@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Добавление стола{% endblock title %}
+
+{% block content %}
+    {% include "includes/navbar.html"%}
+    {% include "includes/datetime.html"%}
+    <div class="form-container container-left">
+        <h3>Добавление стола</h3>
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class='form-add-order'>
+                    {{ field.label_tag }} {{ field }}
+                </div>
+            {% endfor %}
+            <button type="submit" class="save_button">Сохранить</button>
+        </form>
+    </div>
+{% endblock content %}

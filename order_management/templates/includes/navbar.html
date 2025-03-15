@@ -4,5 +4,6 @@
         <a href="{% url 'index' %}" class="{% if request.resolver_match.url_name == 'index' %}hidden{% endif %}" data-hover="Главная"> Главная </a>
         <a href="{% url 'product' %}" class="{% if request.resolver_match.url_name == 'product' %}hidden{% endif %}" data-hover="Меню"> Меню </a>
         <a href="{% url 'show_orders' %}" class="{% if request.resolver_match.url_name == 'show_orders' %}hidden{% endif %}" data-hover="Заказы"> Заказы </a>
+        <a href="{% url 'table' %}" class="{% if request.resolver_match.url_name == 'table' %}hidden{% endif %}" data-hover="Столы"> Столы </a>
         <a href="{% url 'calculation' %}" class="{% if request.resolver_match.url_name == 'calculation' %}hidden{% endif %}" data-hover="Расчет выручки"> Расчет выручки </a>
 </nav>

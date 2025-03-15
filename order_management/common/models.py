@@ -70,7 +70,7 @@ class Table(models.Model):
         BUSY = "busy", "Занято"
         FREE = "free", "Свободно"
 
-    number = models.PositiveSmallIntegerField()
+    number = models.PositiveSmallIntegerField(unique=True)
     places = models.PositiveSmallIntegerField()
     status = models.CharField(max_length=4, choices=Status.choices, default=Status.FREE)
 

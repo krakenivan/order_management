@@ -37,11 +37,11 @@
 
     {% if filter %}
     <div class='center'><h1 class='blue'> {{name}} </h1></div>
-    <div class='table-analytics'>
+    <div class='table'>
         {% include "includes/analytics.html"%}
     </div>
-    <div class="table reducing-width">
-        <h1> Неоплаченные заказы </h1>
+    <div class='center'><h1 class='blue'> Неоплаченные заказы </h1></div>
+    <div class="table">
         {% include "includes/table_orders.html" %}
     </div>
     {% else %}
