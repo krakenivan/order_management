@@ -10,8 +10,7 @@ class ChoiceOfDeleteOrderViews(ListView):
 
     def get_template_names(self):
         # Проверяем, есть ли записи в таблице Order
-        order = Order.objects.exclude(
-        status__in=["paid", "completed"])
+        order = Order.objects.exclude(status__in=["paid", "completed"])
         if not order:
             return ["show_orders_app/no_orders.html"]
         return [self.template_name]  # Стандартный шаблон
@@ -21,3 +20,6 @@ class ConfirmationOfDeletionOrderViews(DeleteView):
     template_name = "delete_order_app/confirm_delete.html"
     model = Order
     success_url = reverse_lazy("show_orders")
+
+
+# TODO добавить логику изменения статуса стола
