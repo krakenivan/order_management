@@ -1,6 +1,6 @@
 """Сервисы работающие с объектами модели Order"""
 
-from .model_services import create_objects, filter_objects
+from .model_services import create_objects, filter_objects, get_object
 from ..models import Order
 
 
@@ -13,3 +13,8 @@ def filter_order(**kwargs):
     """получение заказов по фильтру"""
     orders = filter_objects(Order.objects, **kwargs)
     return orders
+
+def get_order(**kwargs):
+    """получение заказа"""
+    order = get_object(Order.objects, **kwargs)
+    return order
