@@ -1,0 +1,28 @@
+<script>
+// Функция для отображения сообщения
+        function showMessage() {
+            // Извлекаем сообщение из sessionStorage
+            const message = sessionStorage.getItem('message');
+            if (message) {
+                // Создаем элемент для отображения сообщения
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message';
+                messageDiv.textContent = message;
+
+                // Вставляем сообщение в контейнер с id="message-container"
+                const container = document.getElementById('message-container');
+                if (container) {
+                    // Очищаем контейнер перед добавлением нового сообщения
+                    container.innerHTML = '';
+                    container.appendChild(messageDiv);
+                }
+
+                // Удаляем сообщение из sessionStorage
+                sessionStorage.removeItem('message');
+            }
+        }
+
+        // Вызываем функцию showMessage при загрузке страницы и при возврате на страницу
+        document.addEventListener('DOMContentLoaded', showMessage);
+        window.addEventListener('pageshow', showMessage);  // Обработка возврата на страницу
+</script>

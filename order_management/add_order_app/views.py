@@ -16,7 +16,7 @@ class CreateOrderViews(FormView):
             ordering_at_the_table = table.order_set.exclude(status="completed")
             return render(
                 self.request,
-                "add_order_app/table_is_locked.html",
+                "table_app/table_locked.html",
                 context={"orders": ordering_at_the_table},
             )
         order = Order.objects.create(table_number=table)
@@ -34,9 +34,6 @@ class CreateOrderViews(FormView):
         self.success_url = f"{reverse_lazy('completing_add_order')}?order_id={order.id}"
         return super().form_valid(form)
 
-
-class TableLockedViews(TemplateView):
-    template_name = "add_order_app/table_is_locked.html"
 
 
 class CompletingAddOrderViews(TemplateView):

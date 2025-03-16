@@ -1,5 +1,5 @@
 {% if not orders %}
-    <span class="negative"><h2>Заказов нет</h2></span>
+    {% include "includes/lack_orders.html"%}
 {% else %}
     <table class="styled-table">
     <thead>
@@ -9,9 +9,11 @@
             <th>Список блюд</th>
             <th>Общая стоимость</th>
             <th>Статус</th>
+            <th>Дата</th>
             {% if edit or delete%}
                 <th> Выбрать</th>
             {% endif %}
+
         </tr>
     </thead>
     <tbody>
@@ -36,6 +38,7 @@
         {% else %}
             <td> {{ order.get_status_display }} </td>
         {% endif %}
+            <td> {{ order.datetime|date:"d.m.Y" }} <br> {{order.datetime|time:"H:i"}} </td>
         {% if edit %}
             <td><a href=" {% url 'edit_order' order.id %} " class="edit-link"> Изменить</a></td>
         {% elif delete %}

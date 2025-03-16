@@ -3,7 +3,8 @@
 {% block title %}Добавить в меню{% endblock title %}
 
 {% block content %}
-    {% include "includes/navbar.html" %}
+    {% include "includes/navbar.html"%}
+    {% include "includes/datetime.html"%}
     <div class='center'><h1 class='blue'> Блюда в меню </h1></div>
     {% if messages %}
         {% for message in messages %}

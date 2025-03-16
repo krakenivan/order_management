@@ -1,9 +1,12 @@
 {% extends "base.html" %}
 
 {% block title %}Добавление заказа{% endblock title %}
+{% block script %}{% include "includes/script_show_message.html"%}{% endblock script %}
 
 {% block content %}
     {% include "includes/navbar.html"%}
+    {% include "includes/datetime.html"%}
+    {% include "includes/message.html"%}
     <div class="form-container container-left">
         <h3>Добавление Заказа</h3>
         <form method="post" action="{% url 'creating_order' %}">

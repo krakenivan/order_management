@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from common.models import Order, Dishes, Table
 from django.views.generic import UpdateView, ListView
@@ -24,9 +25,15 @@ class EditOrderViews(UpdateView):
         return old_order
 
     def form_valid(self, form):
-        print(form.cleaned_data)
         order = form.instance
         new_table = form.cleaned_data.get("table_number")
+        if new_table.status == "busy":
+            ordering_at_the_table = new_table.order_set.exclude(status="completed")
+            return render(
+                self.request,
+                "table_app/table_locked.html",
+                context={"orders": ordering_at_the_table},
+            )
         if self.old_table != new_table:
             self.old_table.status = Table.Status.FREE
             self.old_table.save()

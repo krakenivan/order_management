@@ -3,6 +3,8 @@
 {% block title %}Подтвердите удаление{% endblock title %}
 
 {% block content %}
+    {% include "includes/navbar.html"%}
+    {% include "includes/datetime.html"%}
     <div class="center blue"><h1> Подтвердите удаление стола </h1></div>
     <div class="form-container">
         <h3> Номер стола: <span class="structure dark">{{table.number}}</span></h3> 

@@ -5,6 +5,7 @@
 
 {% block content %}
     {% include "includes/navbar.html"%}
+    {% include "includes/datetime.html"%}
     <form method="post" action="{% url 'change_one_status' order.id %}">
         {% csrf_token %}
         <div class="center blue"><h1> Выберите статус для заказа </h1></div>

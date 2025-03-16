@@ -3,15 +3,19 @@
 {% block title %}Удалить из меню{% endblock title %}
 
 {% block content %}
-    <div class="form-container">
-        <h3>Удаление блюда</h3>
+    {% include "includes/navbar.html"%}
+    {% include "includes/datetime.html"%}
         {% if messages %}
             {% for message in messages %}
-                <h4 class="positive">
-                {{ message }}
-                </h4>
+                <div class='center'>
+                    <h3 class="positive">
+                    {{ message }}
+                    </h3>
+                </div>
             {% endfor %}
         {% endif %}
+    <div class="form-container">
+        <h3>Удаление блюда</h3>
         <form method="post" action="{% url 'delete_product' %}">
                 {% csrf_token %}
             {% for field in form %}

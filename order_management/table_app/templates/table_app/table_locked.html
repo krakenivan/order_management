@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Стол занят{% endblock title %}
+{% block script %}{% include "includes/script_add_message.html"%}{% endblock script %}
+{% block content %}
+    {% include "includes/navbar.html"%}
+    {% include "includes/datetime.html"%}
+    {% if is_table %}
+        <div class='center'><h1 class='blue'> За этим столом невыполненный заказ </h1></div>
+    {% else %}
+        <div class='center'><h1 class='blue'> Заказ за этот стол уже существует </h1></div>
+    {% endif %}
+    <div class="table">
+        {% include "includes/table_orders.html" %}
+    </div>
+    <nav class="cl-link">
+        <a href=" {% url "edit_order" orders.first.id %} " data-hover="Редактировать заказ">Редактировать заказ</a> <br>
+        <a href=" {% url "change_one_status" orders.first.id %} " data-hover="Изменить статус заказа">Изменить статус заказа</a> <br>
+        <a href=" {% url "delete_order" orders.first.id %} " data-hover="Удалить заказ">Удалить заказ</a> <br>
+        <a href="#" onclick="setMessageAndGoBack()" data-hover="Назад">Назад</a>
+    </nav>
+{% endblock content %}

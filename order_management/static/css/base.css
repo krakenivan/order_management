@@ -127,6 +127,11 @@ span.structure{
     margin: 0 25px;
 }
 
+div.message-container {
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+}
 
 .cl-link a::before {
     color: #0a67d8;
