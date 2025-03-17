@@ -1,13 +1,11 @@
 """Общие сервисы работающие с объектами моделей"""
 
-from functools import wraps
 from django.db.models import Manager
 
 
 def only_objects_decorator(func):
     """декоратор получения полей через only()"""
 
-    @wraps
     def wrapper(objects, only=(), *args, **kwargs):
         return func(objects, *args, **kwargs).only(*only)
 
@@ -32,6 +30,7 @@ def exclude_objects(objects: Manager, **kwargs):
     return objects.exclude(**kwargs)
 
 
+@only_objects_decorator
 def get_object(objects, **kwargs):
     """получение объекта"""
     return objects.get(**kwargs)

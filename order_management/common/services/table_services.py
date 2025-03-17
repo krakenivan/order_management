@@ -1,6 +1,6 @@
 """Сервисы работающие с объектами модели Table"""
 
-from .model_services import exclude_objects
+from .model_services import exclude_objects, get_object
 from ..models import Table
 
 def current_table_order(table):
@@ -17,3 +17,8 @@ def switch_table_status(table, status):
 def check_table_status(table, status):
     """проверка статуса стола"""
     return table.status == status
+
+def get_table(**kwargs):
+    """получение стола"""
+    table = get_object(Table.objects, **kwargs)
+    return table

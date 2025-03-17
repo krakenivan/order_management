@@ -1,6 +1,9 @@
 from django.urls import reverse_lazy
 from common.models import Order
 from django.views.generic import ListView, DeleteView
+from common.services.table_services import switch_table_status, get_table
+from common.services.model_services import save_objects
+from common.services.order_services import exclude_order
 
 
 class ChoiceOfDeleteOrderViews(ListView):
@@ -9,11 +12,11 @@ class ChoiceOfDeleteOrderViews(ListView):
     context_object_name = "orders"
 
     def get_template_names(self):
-        # Проверяем, есть ли записи в таблице Order
-        order = Order.objects.exclude(status__in=["paid", "completed"])
+        # order = Order.objects.exclude(status__in=["paid", "completed"])
+        order = exclude_order(status__in=["paid", "completed"])
         if not order:
             return ["show_orders_app/no_orders.html"]
-        return [self.template_name]  # Стандартный шаблон
+        return [self.template_name]
 
 
 class ConfirmationOfDeletionOrderViews(DeleteView):
@@ -21,5 +24,8 @@ class ConfirmationOfDeletionOrderViews(DeleteView):
     model = Order
     success_url = reverse_lazy("show_orders")
 
-
-# TODO добавить логику изменения статуса стола
+    def form_valid(self, form):
+        table = get_table(pk=self.kwargs["pk"])
+        switch_table_status(table, status="free")
+        save_objects(table)
+        return super().form_valid(form)
