@@ -1,5 +1,6 @@
 from django import forms
-from common.models import Order, Product
+from common.models import Order
+from common.services.product_services import all_product
 
 
 class OrderForm(forms.ModelForm):
@@ -10,7 +11,7 @@ class OrderForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        products = Product.objects.all()
+        products = all_product()
 
         # Динамически создаем поля для каждого продукта
         for product in products:

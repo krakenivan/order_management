@@ -17,6 +17,7 @@ def filter_order(**kwargs):
 
 
 def exclude_order(**kwargs):
+    """исключение заказов"""
     orders = exclude_objects(Order.objects, **kwargs)
     return orders
 

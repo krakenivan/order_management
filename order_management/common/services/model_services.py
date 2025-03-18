@@ -12,18 +12,31 @@ def only_objects_decorator(func):
     return wrapper
 
 
+def exists_objects_decorator(func):
+    """декоратор проверки наличия значений в поле"""
+
+    def wrapper(objects, exists=True, *args, **kwargs):
+        if exists:
+            func(objects, *args, **kwargs).exists()
+        return func(objects, *args, **kwargs)
+
+    return wrapper
+
+
 @only_objects_decorator
 def all_objects(objects: Manager):
     """получение всех объектов"""
     return objects.all()
 
 
+@exists_objects_decorator
 @only_objects_decorator
 def filter_objects(objects: Manager, **kwargs):
     """фильтр объектов"""
     return objects.filter(**kwargs)
 
 
+@exists_objects_decorator
 @only_objects_decorator
 def exclude_objects(objects: Manager, **kwargs):
     """исключение объектов"""
@@ -45,3 +58,8 @@ def create_objects(objects: Manager, **kwargs):
 def save_objects(objects):
     """сохранение объекта"""
     objects.save()
+
+
+def delete_objects(objects):
+    """удаление объекта"""
+    objects.delete()

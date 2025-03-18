@@ -1,6 +1,7 @@
 from django.urls import reverse_lazy
-from common.models import Order
 from django.views.generic import ListView, DeleteView
+
+from common.models import Order
 from common.services.table_services import switch_table_status, get_table
 from common.services.model_services import save_objects
 from common.services.order_services import exclude_order

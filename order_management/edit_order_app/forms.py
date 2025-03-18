@@ -1,6 +1,8 @@
 from django import forms
 from django.utils.safestring import mark_safe
-from common.models import Order, Product
+from common.models import Order
+from common.services.dishes_services import current_dishes_of_order, get_id_product_of_dish
+from common.services.product_services import exclude_product
 
 
 class CustomTextWidget(forms.TextInput):
@@ -27,17 +29,22 @@ class EditOrderForm(forms.ModelForm):
         if "instance" not in kwargs:
             return
         order = kwargs["instance"]
-        dishes = order.dishes_set.all()
-        products = Product.objects.exclude(id__in=dishes.values("product_id"))
+        # dishes = order.dishes_set.all()
+        dishes = current_dishes_of_order(order)
+        # products = Product.objects.exclude(id__in=dishes.values("product_id"))
+        products = exclude_product(id__in=dishes.values("product_id"))
 
         self.fields["dishes_in_order"] = forms.CharField(
             required=False,
             label="",
             widget=CustomTextWidget(custom_text="Блюда в заказе:"),
         )
+        # формы для блюд в заказе
         for dish in dishes:
-            field_name = f"product_{dish.product.id}"
-            quantity_name = f"quantity_{dish.product.id}"
+            # field_name = f"product_{dish.product.id}"
+            field_name = f"product_{get_id_product_of_dish(dish)}"
+            # quantity_name = f"quantity_{dish.product.id}"
+            quantity_name = f"quantity_{get_id_product_of_dish(dish)}"
 
             # Поле для выбора продукта (чекбокс)
             self.fields[field_name] = forms.BooleanField(
@@ -59,6 +66,7 @@ class EditOrderForm(forms.ModelForm):
             label="",
             widget=CustomTextWidget(custom_text="Добавить блюда:"),
         )
+        # формы для блюд вне заказа
         for product in products:
             field_name = f"product_{product.id}"
             quantity_name = f"quantity_{product.id}"

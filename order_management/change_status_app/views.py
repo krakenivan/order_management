@@ -1,7 +1,7 @@
 from django.shortcuts import redirect
-from common.models import Order
 from django.views.generic import ListView, DetailView
-from . import forms
+
+from common.models import Order
 from common.services.form_services import (
     save_modelform_with_prefix,
     creating_modelform_with_prefix,
@@ -10,6 +10,8 @@ from common.services.form_services import (
 from common.services.order_services import get_order, current_order_table
 from common.services.table_services import switch_table_status
 from common.services.model_services import save_objects
+
+from . import forms
 
 
 class ChangeOrderStatusViews(ListView):
