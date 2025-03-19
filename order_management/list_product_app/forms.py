@@ -1,6 +1,8 @@
 from django import forms
 from common.models import Product
 
+from common.services.product_services import all_product
+
 
 class AddProductForm(forms.ModelForm):
     class Meta:
@@ -15,7 +17,7 @@ class AddProductForm(forms.ModelForm):
 
 class DeleteProductForm(forms.Form):
     select_product = forms.ModelMultipleChoiceField(
-        queryset=Product.objects.all(),
+        queryset=all_product(),
         widget=forms.CheckboxSelectMultiple(),
         label="Выберите блюдо:",
     )
