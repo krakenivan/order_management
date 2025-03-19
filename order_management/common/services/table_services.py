@@ -1,6 +1,6 @@
 """Сервисы работающие с объектами модели Table"""
 
-from .model_services import exclude_objects, get_object
+from .model_services import exclude_objects, get_object, filter_objects
 from ..models import Table
 
 
