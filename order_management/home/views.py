@@ -1,28 +1,24 @@
-from typing import Any
-from django.shortcuts import render
-from django.views.generic import TemplateView
-from common.models import Order, Table
 from datetime import date
-from common.services import analytics_services as an_serv
 
-# Create your views here.
+from django.views.generic import TemplateView
 
-
-def index(request):
-    """главная страница"""
-    return render(request, "home/index.html")
+from common.services.analytics_services import analytics
+from common.services.order_services import exclude_order, filter_order
+from common.services.table_services import filter_table
 
 
 class HomeViews(TemplateView):
+    """Главная страница"""
+
     template_name = "home/index.html"
 
-    def get_context_data(self, **kwargs) -> dict[str, Any]:
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        orders = Order.objects.exclude(status__in=["paid", "completed"])
-        tables = Table.objects.filter(status="free")
+        orders = exclude_order(status__in=["paid", "completed"])
+        tables = filter_table(status="free")
         today = date.today()
-        today_orders = Order.objects.filter(datetime__gte=today)
-        analytics = an_serv.analytics(orders=today_orders, home=True)
+        today_orders = filter_order(datetime__gte=today)
+        dict_analytics = analytics(orders=today_orders, home=True)
         context["orders"] = orders
         context["tables"] = tables
-        return context | analytics
+        return context | dict_analytics
