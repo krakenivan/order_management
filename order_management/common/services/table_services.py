@@ -1,12 +1,18 @@
 """Сервисы работающие с объектами модели Table"""
 
 from .model_services import exclude_objects, get_object, filter_objects
+from .order_services import exclude_order
 from ..models import Table
 
 
 def current_table_order(table):
     """получение действующего заказа за переданным столом"""
     return exclude_objects(table.order_set, status="completed")
+
+
+def work_orders_at_table(table_id):
+    """получение рабочих заказов за переданным столом"""
+    return filter_objects(exclude_order(status__in=["paid", "completed"]), table_number=table_id)
 
 
 def switch_table_status(table, status):

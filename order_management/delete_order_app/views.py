@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DeleteView
 
 from common.models import Order
-from common.services.table_services import switch_table_status, get_table
+from common.services.table_services import switch_table_status
 from common.services.model_services import save_objects
 from common.services.order_services import exclude_order
 
@@ -13,7 +13,6 @@ class ChoiceOfDeleteOrderViews(ListView):
     context_object_name = "orders"
 
     def get_template_names(self):
-        # order = Order.objects.exclude(status__in=["paid", "completed"])
         order = exclude_order(status__in=["paid", "completed"])
         if not order:
             return ["show_orders_app/no_orders.html"]
@@ -26,7 +25,7 @@ class ConfirmationOfDeletionOrderViews(DeleteView):
     success_url = reverse_lazy("show_orders")
 
     def form_valid(self, form):
-        table = get_table(pk=self.kwargs["pk"])
+        table = self.object.table_number
         switch_table_status(table, status="free")
         save_objects(table)
         return super().form_valid(form)
