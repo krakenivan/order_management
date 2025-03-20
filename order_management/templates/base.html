@@ -10,6 +10,9 @@
     {% block script %}{% endblock script %}
 </head>
 <body>
+    {% block ind %}{% endblock ind %}
+    {% include "includes/navbar.html"%}
+    {% include "includes/datetime.html"%}
     {% block content %}{% endblock content %}
 </body>
 </html>

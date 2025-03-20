@@ -2,10 +2,7 @@
 
 {% block title %}Изменение статуса{% endblock title %}
 
-{% block content %}
-    {% include "includes/navbar.html"%}
-    {% include "includes/datetime.html"%}
-    
+{% block content %}    
     <form method='post'>
         {% csrf_token %}
         <div class='center'><h1 class='blue'> Выберите статус заказа </h1></div>

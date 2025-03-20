@@ -3,8 +3,6 @@
 {% block title %}Стол занят{% endblock title %}
 {% block script %}{% include "includes/script_add_message.html"%}{% endblock script %}
 {% block content %}
-    {% include "includes/navbar.html"%}
-    {% include "includes/datetime.html"%}
     {% if is_table %}
         <div class='center'><h1 class='blue'> За этим столом невыполненный заказ </h1></div>
     {% else %}

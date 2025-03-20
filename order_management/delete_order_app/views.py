@@ -8,6 +8,8 @@ from common.services.order_services import exclude_order
 
 
 class ChoiceOfDeleteOrderViews(ListView):
+    """Выбор заказа для удаления"""
+
     model = Order
     template_name = "delete_order_app/choosing_delete.html"
     context_object_name = "orders"
@@ -20,6 +22,8 @@ class ChoiceOfDeleteOrderViews(ListView):
 
 
 class ConfirmationOfDeletionOrderViews(DeleteView):
+    """Подтверждение удаления"""
+
     template_name = "delete_order_app/confirm_delete.html"
     model = Order
     success_url = reverse_lazy("show_orders")

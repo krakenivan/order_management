@@ -3,11 +3,9 @@
 {% block title %}Подтвердите удаление{% endblock title %}
 
 {% block content %}
-    {% include "includes/navbar.html"%}
-    {% include "includes/datetime.html"%}
     <div class="center blue"><h1> Подтвердите удаление заказа </h1></div>
     <div class="form-container">
-       <h3> Номер стола: <span class="structure dark">{{order.table_number}}</span></h3> 
+        <h3> Номер стола: <span class="structure dark">{{order.table_number}}</span></h3> 
         <h3>Статус: <span class="structure dark">{{order.get_status_display}}</span></h3> 
         <h3>Блюда в заказе:</h3>
         {% for dish in order.dishes_set.all %}
