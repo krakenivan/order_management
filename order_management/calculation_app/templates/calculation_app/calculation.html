@@ -38,10 +38,12 @@
         <div class='table'>
             {% include "includes/analytics.html"%}
         </div>
+        {% if more_to_be_paid %}
         <div class='center'><h1 class='blue'> Неоплаченные заказы </h1></div>
         <div class="table">
             {% include "includes/table_orders.html" %}
         </div>
+        {% endif %}
     {% else %}
         <div class='blue center'><h2>Заказов нет</h2></div>
     {% endif %}

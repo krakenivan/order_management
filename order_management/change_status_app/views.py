@@ -1,5 +1,7 @@
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView
+from django.contrib import messages
+
 
 from common.models import Order
 from common.services.form_services import (
@@ -43,6 +45,7 @@ class ChangeOrderStatusViews(ListView):
             ):
                 switch_table_status(table, "free")
                 save_objects(table)
+                messages.success(self.request, "Статус изменен!")
         return redirect("change_status")
 
 
@@ -67,4 +70,5 @@ class ChangeOneOrderStatusViews(DetailView):
         if comparison_with_object_from_form(form, key="status", check_data="completed"):
             switch_table_status(table, "free")
             save_objects(table)
+            messages.success(self.request, "Статус изменен!")
         return redirect("change_status")

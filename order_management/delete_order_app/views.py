@@ -1,5 +1,7 @@
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DeleteView
+from django.contrib import messages
+
 
 from common.models import Order
 from common.services.table_services import switch_table_status
@@ -26,10 +28,11 @@ class ConfirmationOfDeletionOrderViews(DeleteView):
 
     template_name = "delete_order_app/confirm_delete.html"
     model = Order
-    success_url = reverse_lazy("show_orders")
+    success_url = reverse_lazy("choosing_delete")
 
     def form_valid(self, form):
         table = self.object.table_number
         switch_table_status(table, status="free")
         save_objects(table)
+        messages.success(self.request, "Заказ удален!")
         return super().form_valid(form)

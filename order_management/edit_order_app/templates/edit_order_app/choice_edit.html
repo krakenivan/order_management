@@ -3,6 +3,15 @@
 {% block title %}Изменение заказов{% endblock title %}
 
 {% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class='center'>
+                <h3 class="positive">
+                    {{ message }}
+                </h3>
+            </div>
+        {% endfor %}
+    {% endif %} 
     <div class='center'><h1 class='blue'> Выберите заказ для изменения </h1></div>
     <div class="table">
         {% include "includes/table_orders.html" with edit=True %}

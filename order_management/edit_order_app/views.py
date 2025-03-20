@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView, ListView
+from django.contrib import messages
+
 
 from common.models import Order
 from common.services.form_services import get_object_form
@@ -11,16 +13,6 @@ from common.services.dishes_services import (
     get_dish_by_product_id,
     check_product_id_in_dishes,
 )
-
-
-
-
-
-
-
-
-
-
 
 
 from common.services.table_services import (
@@ -91,4 +83,5 @@ class EditOrderViews(UpdateView):
                     else:
                         continue
         order.calculation_total_price()
+        messages.success(self.request, "Заказ изменен!")
         return super().form_valid(form)
