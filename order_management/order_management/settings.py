@@ -58,6 +58,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "common.middleware.ExceptionHandlerMiddleware",
 ]
 
 ROOT_URLCONF = "order_management.urls"
