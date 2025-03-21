@@ -7,14 +7,10 @@ class ExceptionHandlerMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        try:
-            response = self.get_response(request)
-        except Exception as e:
-            # # Логируем ошибку
-            # logger.error(f"Произошла ошибка: {e}\n{traceback.format_exc()}")
-
-            # Перенаправляем на страницу ошибки
-            return redirect(
-                reverse("error")
-            )
+        response = self.get_response(request)
         return response
+
+    def process_exception(self, request, exception):
+        # Логируем ошибку
+        # logger.error(f"Произошла ошибка: {e}\n{traceback.format_exc()}")
+        return redirect(reverse("error"))

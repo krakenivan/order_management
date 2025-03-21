@@ -34,4 +34,5 @@ urlpatterns = [
     path("", include("list_product_app.urls")),
     path("", include("edit_order_app.urls")),
     path("", include("table_app.urls")),
+    path("", include("common.urls")),
 ]
