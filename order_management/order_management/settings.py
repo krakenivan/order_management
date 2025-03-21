@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -134,3 +135,46 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+LOGGING = {
+    "version": 1,  # Версия формата конфигурации
+    "disable_existing_loggers": False,  # Не отключать существующие логгеры
+    # Форматеры
+    "formatters": {
+        "verbose": {
+            "format": "{asctime} - {levelname} - {module} - {filename} - {funcName} - {message}",
+            "style": "{",
+        },
+        "simple": {
+            "format": "{asctime} - {message}",
+            "style": "{",
+        },
+    },
+    # Обработчики
+    "handlers": {
+        "console": {
+            "level": "INFO",  # Уровень логирования
+            "class": "logging.StreamHandler",  # Вывод в консоль
+            "formatter": "simple",  # Используемый форматер
+        },
+        "file": {
+            "level": "WARNING",
+            "class": "logging.FileHandler",  # Запись в файл
+            "filename": os.path.join(BASE_DIR, "logs/django.log"),  # Путь к файлу
+            "formatter": "verbose",
+        },
+    },
+    # Логгеры
+    "loggers": {
+        "info": {
+            "handlers": ["console"],  # Используемые обработчики
+            "level": "INFO",  # Уровень логирования
+            "propagate": True,  # Передавать сообщения родительским логгерам
+        },
+        "warning": {
+            "handlers": ["console", "file"],
+            "level": "WARNING",
+            "propagate": True,
+        },
+    },
+}

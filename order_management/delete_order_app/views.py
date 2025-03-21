@@ -1,3 +1,4 @@
+import logging
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DeleteView
 from django.contrib import messages
@@ -7,6 +8,8 @@ from common.models import Order
 from common.services.table_services import switch_table_status
 from common.services.model_services import save_objects
 from common.services.order_services import exclude_order
+
+logger = logging.getLogger("info")
 
 
 class ChoiceOfDeleteOrderViews(ListView):
@@ -35,4 +38,5 @@ class ConfirmationOfDeletionOrderViews(DeleteView):
         switch_table_status(table, status="free")
         save_objects(table)
         messages.success(self.request, "Заказ удален!")
+        logger.info("Заказ успешно удален!")
         return super().form_valid(form)

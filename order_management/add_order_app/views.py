@@ -1,3 +1,4 @@
+import logging
 from django.shortcuts import render
 from django.views.generic import FormView, TemplateView
 from django.urls import reverse_lazy
@@ -14,6 +15,8 @@ from common.services.model_services import save_objects
 
 from . import forms
 
+logger = logging.getLogger("info")
+
 
 class CreateOrderViews(FormView):
     """Добавление заказа"""
@@ -26,6 +29,7 @@ class CreateOrderViews(FormView):
         table = get_object_form(form, key="table_number")
         if check_table_status(table, status="busy"):
             ordering_at_the_table = current_table_order(table)
+            logger.info("Стол успешно заблокирован!")
             return render(
                 self.request,
                 "table_app/table_locked.html",
@@ -42,6 +46,7 @@ class CreateOrderViews(FormView):
         switch_table_status(table, status="busy")
         save_objects(table)
         self.success_url = f"{reverse_lazy('completing_add_order')}?order_id={order.id}"
+        logger.info("Заказ успешно добавлен.")
         return super().form_valid(form)
 
 

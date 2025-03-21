@@ -1,3 +1,4 @@
+import logging
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView
 from django.contrib import messages
@@ -14,6 +15,8 @@ from common.services.table_services import switch_table_status
 from common.services.model_services import save_objects
 
 from . import forms
+
+logger = logging.getLogger("info")
 
 
 class ChangeOrderStatusViews(ListView):
@@ -46,6 +49,7 @@ class ChangeOrderStatusViews(ListView):
                 switch_table_status(table, "free")
                 save_objects(table)
                 messages.success(self.request, "Статус изменен!")
+        logger.info("Выбранные статусы успешно изменены.")
         return redirect("change_status")
 
 
@@ -71,4 +75,5 @@ class ChangeOneOrderStatusViews(DetailView):
             switch_table_status(table, "free")
             save_objects(table)
             messages.success(self.request, "Статус изменен!")
+        logger.info(f"Статус заказа номер {order.id} успешно изменен!")
         return redirect("change_status")
