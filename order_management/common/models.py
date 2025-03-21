@@ -1,7 +1,8 @@
+import logging
 from django.db import models
 from django.db.models import Sum
 
-# Create your models here.
+logger = logging.getLogger("info")
 
 
 class Dishes(models.Model):
@@ -14,6 +15,7 @@ class Dishes(models.Model):
 
     def save(self, *args, **kwargs) -> None:
         self.total_price = self.product.price * self.quantity
+        logger.info("Сумма вычислена!")
         return super().save(*args, **kwargs)
 
 
@@ -40,17 +42,8 @@ class Order(models.Model):
         """метод вычисления суммы заказа"""
         dishes = self.dishes_set.all()
         self.total_price = dishes.aggregate(Sum("total_price"))["total_price__sum"]
+        logger.info("Сумма за блюда в заказе вычислена!")
         self.save()
-
-    # def add_dishes(self):
-    #     """метод добавления списка заказа"""
-    #     self.items.set(Dishes.objects.filter(order_id=self.id))
-
-    # def fill(self):
-    #     """метод для перерасчета заказа"""
-    #     self.add_dishes()
-    #     self.calculation()
-    #     self.save()
 
 
 class Product(models.Model):

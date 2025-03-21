@@ -1,13 +1,20 @@
+import logging
 from django import forms
 from django.utils.safestring import mark_safe
 
 from common.models import Order
-from common.services.dishes_services import current_dishes_of_order, get_id_product_of_dish
+from common.services.dishes_services import (
+    current_dishes_of_order,
+    get_id_product_of_dish,
+)
 from common.services.product_services import exclude_product
+
+logger = logging.getLogger("info")
 
 
 class CustomTextWidget(forms.TextInput):
     """виджет для формы для отображения текста"""
+
     def __init__(self, custom_text=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.custom_text = custom_text  # Сохраняем переданный текст
@@ -20,6 +27,7 @@ class CustomTextWidget(forms.TextInput):
 
 class EditOrderForm(forms.ModelForm):
     """Форма изменения заказа"""
+
     class Meta:
         model = Order
         exclude = ["total_price"]
@@ -57,7 +65,7 @@ class EditOrderForm(forms.ModelForm):
                 initial=dish.quantity,
                 label=f"Количество: {dish.product.name}",
             )
-
+        logger.info("Формы для блюд из заказа успешно сформированы.")
         self.fields["dishes_not_in_order"] = forms.CharField(
             required=False,
             label="",
@@ -81,3 +89,4 @@ class EditOrderForm(forms.ModelForm):
                 initial=1,
                 label=f"Количество: {product.name}",
             )
+        logger.info("Формы для блюд вне заказа успешно сформированы.")

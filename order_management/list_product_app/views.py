@@ -1,3 +1,5 @@
+import logging
+from re import L
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, FormView
 from django.contrib import messages
@@ -8,9 +10,12 @@ from common.services.model_services import delete_objects
 
 from . import forms
 
+logger = logging.getLogger("info")
+
 
 class ProductViews(ListView):
     """отображение всех продуктов"""
+
     template_name = "list_product_app/product.html"
     model = Product
     context_object_name = "products"
@@ -18,6 +23,7 @@ class ProductViews(ListView):
 
 class AddProductViews(CreateView, ListView):
     """Добавление продуктов"""
+
     model = Product
     form_class = forms.AddProductForm
     template_name = "list_product_app/add_product.html"
@@ -27,6 +33,7 @@ class AddProductViews(CreateView, ListView):
         response = super().form_valid(form)
         # Добавляем сообщение об успешном добавлении
         messages.success(self.request, "Блюдо успешно добавлено!")
+        logger.info("Продукт успешно добавлен!")
         return response
 
     def get_success_url(self):
@@ -36,6 +43,7 @@ class AddProductViews(CreateView, ListView):
 
 class DeleteProductViews(FormView):
     """Удаление продуктов"""
+
     form_class = forms.DeleteProductForm
     template_name = "list_product_app/delete_product.html"
     success_url = reverse_lazy("delete_product")
@@ -45,4 +53,5 @@ class DeleteProductViews(FormView):
         select_product = get_object_form(form, "select_product")
         delete_objects(select_product)
         messages.success(self.request, "Блюдо успешно удалено!")
+        logger.info("Продукт успешно удален!")
         return super().form_valid(form)

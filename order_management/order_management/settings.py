@@ -142,11 +142,11 @@ LOGGING = {
     # Форматеры
     "formatters": {
         "verbose": {
-            "format": "{asctime} - {levelname} - {module} - {filename} - {funcName} - {message}",
+            "format": "{asctime} - {levelname} - {message}",
             "style": "{",
         },
         "simple": {
-            "format": "{asctime} - {message}",
+            "format": "{asctime} - {levelname}  - {message}",
             "style": "{",
         },
     },

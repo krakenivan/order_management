@@ -1,9 +1,12 @@
+import logging
 from django.views.generic import FormView
 
 from common.services.form_services import get_object_form
 from common.services.order_services import filter_order
 
 from . import forms
+
+logger = logging.getLogger("info")
 
 
 class FindOrderViews(FormView):
@@ -24,6 +27,7 @@ class FindOrderViews(FormView):
                 found = orders
             else:
                 message = f"Заказа с номером:{id} не найдено"
+            logger.info("Поиск по id осуществлен!")
         # поиск по номеру стола
         if select == "table_number":
             table_number = get_object_form(form, "order_table_number_field")
@@ -32,6 +36,7 @@ class FindOrderViews(FormView):
                 found = orders
             else:
                 message = f"Заказов за столом {table_number} не найдено"
+            logger.info("Поиск по номеру стола осуществлен!")
         # поиск по статусу
         if select == "status":
             status = get_object_form(form, "order_status_field")
@@ -40,6 +45,7 @@ class FindOrderViews(FormView):
                 found = orders
             else:
                 message = "Заказов с таким статусом не найдено"
+            logger.info("Поиск по статусу осуществлен!")
 
         context = self.get_context_data(
             found=found,

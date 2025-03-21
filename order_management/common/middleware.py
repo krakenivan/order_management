@@ -1,5 +1,9 @@
+import logging
+import traceback
 from django.shortcuts import redirect
 from django.urls import reverse
+
+logger = logging.getLogger("warning")
 
 
 class ExceptionHandlerMiddleware:
@@ -12,5 +16,6 @@ class ExceptionHandlerMiddleware:
 
     def process_exception(self, request, exception):
         # Логируем ошибку
-        # logger.error(f"Произошла ошибка: {e}\n{traceback.format_exc()}")
+        tb = traceback.extract_tb(exception.__traceback__)[-1]
+        logger.error(f"{tb.filename} - {tb.name} - {exception}")
         return redirect(reverse("error"))

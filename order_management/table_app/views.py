@@ -1,3 +1,4 @@
+import logging
 from django.views.generic import (
     ListView,
     UpdateView,
@@ -10,6 +11,8 @@ from common.models import Table
 from common.services.table_services import work_orders_at_table
 
 from . import forms
+
+logger = logging.getLogger("info")
 
 
 class TableViews(ListView):
@@ -30,11 +33,13 @@ class EditTableViews(UpdateView):
 
     def get_object(self, queryset=None):
         self.order = work_orders_at_table(table_id=self.kwargs["pk"])
+        logger.info("Заказы за столом сохранены.")
         return super().get_object(queryset)
 
     def get_template_names(self):
         # Если есть заказы в работе за столом блокируем изменение стола
         if self.order:
+            logger.info("Стол успешно заблокирован!")
             return ["table_app/table_locked.html"]
         return [self.template_name]
 
@@ -63,10 +68,12 @@ class DeleteTableViews(DeleteView):
 
     def get_object(self, queryset=None):
         self.order = work_orders_at_table(table_id=self.kwargs["pk"])
+        logger.info("Заказы за столом сохранены.")
         return super().get_object(queryset)
 
     def get_template_names(self):
         if self.order:
+            logger.info("Стол успешно заблокирован!")
             return ["table_app/table_locked.html"]
         return [self.template_name]
 

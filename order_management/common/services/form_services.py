@@ -1,9 +1,17 @@
-"""Сервисы для работы объектами форм"""
+"""
+Сервисы для работы объектами форм
+"""
+
+import logging
+
+logger = logging.getLogger("info")
 
 
 def get_object_form(form, key):
     """получение объекта из формы по ключу"""
-    return form.cleaned_data.get(key)
+    object = form.cleaned_data.get(key)
+    logger.info("Объект из формы получен!")
+    return object
 
 
 def save_modelform_with_prefix(request, forms, object):
@@ -11,12 +19,14 @@ def save_modelform_with_prefix(request, forms, object):
     form = forms(request.POST, prefix=str(object.id), instance=object)
     if form.is_valid():
         form.save()
+        logger.info("Форма с префиксом сохранена!")
     return form
 
 
 def creating_modelform_with_prefix(forms, object):
     """создание формы с префиксом"""
     form = forms(prefix=str(object.id), instance=object)
+    logger.info("Форма с префиксом создана!")
     return form
 
 

@@ -1,3 +1,4 @@
+import logging
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView, ListView
@@ -23,6 +24,8 @@ from common.services.table_services import (
 
 from . import forms
 
+logger = logging.getLogger("info")
+
 
 class ChoiceOfEditingOrderViews(ListView):
     """Выбор заказа для изменения"""
@@ -44,6 +47,7 @@ class EditOrderViews(UpdateView):
         # Сохраняем стол до изменений
         old_order = super().get_object(queryset)
         self.old_table = old_order.table_number
+        logger.info("Стол до изменений сохранен")
         return old_order
 
     def form_valid(self, form):
@@ -52,6 +56,7 @@ class EditOrderViews(UpdateView):
         if self.old_table != new_table:
             if check_table_status(new_table, "busy"):
                 ordering_at_the_table = current_table_order(new_table)
+                logger.info("Стол успешно заблокирован!")
                 return render(
                     self.request,
                     "table_app/table_locked.html",
@@ -84,4 +89,5 @@ class EditOrderViews(UpdateView):
                         continue
         order.calculation_total_price()
         messages.success(self.request, "Заказ изменен!")
+        logger.info("Заказа успешно изменен.")
         return super().form_valid(form)

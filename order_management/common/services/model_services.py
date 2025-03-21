@@ -1,6 +1,11 @@
-"""Общие сервисы работающие с объектами моделей"""
+"""
+Общие сервисы работающие с объектами моделей
+"""
 
+import logging
 from django.db.models import Manager
+
+logger = logging.getLogger("info")
 
 
 def only_objects_decorator(func):
@@ -58,8 +63,10 @@ def create_objects(objects: Manager, **kwargs):
 def save_objects(objects):
     """сохранение объекта"""
     objects.save()
+    logger.info(f"Объект {objects} сохранен в БД!")
 
 
 def delete_objects(objects):
     """удаление объекта"""
     objects.delete()
+    logger.info(f"Объект {objects} удален из БД!")

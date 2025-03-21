@@ -1,5 +1,8 @@
-"""Сервисы работающие с объектами модели Order"""
+"""
+Сервисы работающие с объектами модели Order
+"""
 
+import logging
 from .model_services import (
     create_objects,
     filter_objects,
@@ -10,27 +13,34 @@ from .model_services import (
 
 from ..models import Order
 
+logger = logging.getLogger("info")
+
 
 def create_order(table):
     """добавление нового заказа"""
     order = create_objects(Order.objects, table_number=table)
+    logger.info("Заказ добавлен в БД!")
     return order
 
 
 def all_order(**kwargs):
     """получение всех заказов"""
-    return all_objects(Order.objects, **kwargs)
+    orders = all_objects(Order.objects, **kwargs)
+    logger.info("Все заказы получены из БД!")
+    return orders
 
 
 def filter_order(**kwargs):
     """получение заказов по фильтру"""
     orders = filter_objects(Order.objects, **kwargs)
+    logger.info("Заказы по фильтру получены из БД!")
     return orders
 
 
 def exclude_order(**kwargs):
     """исключение заказов"""
     orders = exclude_objects(Order.objects, **kwargs)
+    logger.info("Заказы с исключением получены из БД!")
     return orders
 
 
@@ -43,10 +53,12 @@ def exclude_order_query(query, **kwargs):
 def get_order(**kwargs):
     """получение заказа"""
     order = get_object(Order.objects, **kwargs)
+    logger.info("Заказ получен из БД!")
     return order
 
 
 def current_order_table(order):
     """получение стола заказа"""
     table = order.table_number
+    logger.info("Стол для заказа получен из БД!")
     return table
