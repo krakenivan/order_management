@@ -142,6 +142,10 @@ LOGGING = {
     # Форматеры
     "formatters": {
         "verbose": {
+            "format": "{asctime} - {levelname} - {pathname} - {funcName} - {message}",
+            "style": "{",
+        },
+        "middleware": {
             "format": "{asctime} - {levelname} - {message}",
             "style": "{",
         },
@@ -163,6 +167,12 @@ LOGGING = {
             "filename": os.path.join(BASE_DIR, "logs/django.log"),  # Путь к файлу
             "formatter": "verbose",
         },
+        "file_middleware": {
+            "level": "WARNING",
+            "class": "logging.FileHandler",  # Запись в файл
+            "filename": os.path.join(BASE_DIR, "logs/django.log"),  # Путь к файлу
+            "formatter": "middleware",
+        },
     },
     # Логгеры
     "loggers": {
@@ -172,6 +182,11 @@ LOGGING = {
             "propagate": True,  # Передавать сообщения родительским логгерам
         },
         "warning": {
+            "handlers": ["console", "file_middleware"],
+            "level": "WARNING",
+            "propagate": True,
+        },
+        "warning_app": {
             "handlers": ["console", "file"],
             "level": "WARNING",
             "propagate": True,

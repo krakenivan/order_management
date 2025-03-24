@@ -1,4 +1,5 @@
 import logging
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import FormView, TemplateView
 from django.urls import reverse_lazy
@@ -10,7 +11,7 @@ from common.services.table_services import (
     check_table_status,
 )
 from common.services.dishes_services import create_dishes
-from common.services.form_services import get_object_form
+from common.services.form_services import get_object_form, is_selected_product
 from common.services.model_services import save_objects
 
 from . import forms
@@ -48,6 +49,21 @@ class CreateOrderViews(FormView):
         self.success_url = f"{reverse_lazy('completing_add_order')}?order_id={order.id}"
         logger.info("Заказ успешно добавлен.")
         return super().form_valid(form)
+
+    def form_invalid(self, form) -> HttpResponse:
+        table = get_object_form(form, key="table_number")
+        # Если выбран стол, но блюда не выбраны
+        if table and not is_selected_product(form.cleaned_data):
+            logger.info("Добавление заказа без блюд успешно заблокировано!")
+            return render(
+                self.request,
+                self.template_name,
+                {
+                    "form": form,
+                    "warning_message": "Для формирования заказа нужно выбрать блюда.",
+                },
+            )
+        return super().form_invalid(form)
 
 
 class CompletingAddOrderViews(TemplateView):

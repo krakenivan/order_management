@@ -12,7 +12,7 @@ logger = logging.getLogger("info")
 
 def current_table_order(table):
     """получение действующего заказа за переданным столом"""
-    order = exclude_objects(table.order_set, status="completed")
+    order = exclude_objects(table.order_set, status__in=["paid", "completed"])
     logger.info("Действующий заказ за столом получен из БД!")
     return order
 

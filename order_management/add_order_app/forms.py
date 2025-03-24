@@ -1,6 +1,11 @@
+import logging
 from django import forms
+from django.core.exceptions import ValidationError
 from common.models import Order
 from common.services.product_services import all_product
+from common.services.form_services import is_selected_product
+
+logger = logging.getLogger("warning_app")
 
 
 class OrderForm(forms.ModelForm):
@@ -31,3 +36,14 @@ class OrderForm(forms.ModelForm):
                 initial=1,
                 label=f"Количество: {product.name}",
             )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        table_number = cleaned_data.get("table_number")
+
+        if table_number and not is_selected_product(cleaned_data):
+            error_message = "Если выбран стол, необходимо выбрать хотя бы один продукт."
+            logger.error(error_message)  # Логируем ошибку
+            raise ValidationError(error_message)
+
+        return cleaned_data

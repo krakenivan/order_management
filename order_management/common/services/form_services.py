@@ -33,3 +33,12 @@ def creating_modelform_with_prefix(forms, object):
 def comparison_with_object_from_form(form, key, check_data):
     """сравнение объекта полученного из формы по ключу с переданными данными"""
     return get_object_form(form, key) == check_data
+
+
+def is_selected_product(data):
+    """проверка выбора блюд в очищенных данных формы"""
+    products_selected = any(
+        field_name.startswith("product_") and value
+        for field_name, value in data.items()
+    )
+    return products_selected
