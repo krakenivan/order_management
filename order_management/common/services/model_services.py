@@ -48,7 +48,6 @@ def exclude_objects(objects: Manager, **kwargs):
     return objects.exclude(**kwargs)
 
 
-@only_objects_decorator
 def get_object(objects, **kwargs):
     """получение объекта"""
     return objects.get(**kwargs)
