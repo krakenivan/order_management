@@ -104,6 +104,7 @@ class ChangeOneStatusViewsTest(TestCase):
         self.assertTemplateUsed(response, "change_status_app/one_order.html")
 
     def test_change_one_status_no_order_get(self):
+        """проверка get запроса с несуществующим заказом"""
         response = self.client.get("/one-status/3")
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/error/")
