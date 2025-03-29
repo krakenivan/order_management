@@ -11,6 +11,7 @@ from common.services.product_services import exclude_product
 from common.services.form_services import is_selected_product
 
 logger = logging.getLogger("info")
+logger_app = logging.getLogger("warning_app")
 
 
 class CustomTextWidget(forms.TextInput):
@@ -96,7 +97,7 @@ class EditOrderForm(forms.ModelForm):
         cleaned_data = super().clean()
         if not is_selected_product(cleaned_data):
             error_message = "Необходимо выбрать хотя бы один продукт."
-            logger.error(error_message)
+            logger_app.error(error_message)
             raise forms.ValidationError(error_message)
 
         return cleaned_data
