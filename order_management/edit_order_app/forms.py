@@ -8,6 +8,7 @@ from common.services.dishes_services import (
     get_id_product_of_dish,
 )
 from common.services.product_services import exclude_product
+from common.services.form_services import is_selected_product
 
 logger = logging.getLogger("info")
 
@@ -90,3 +91,12 @@ class EditOrderForm(forms.ModelForm):
                 label=f"Количество: {product.name}",
             )
         logger.info("Формы для блюд вне заказа успешно сформированы.")
+
+    def clean(self):
+        cleaned_data = super().clean()
+        if not is_selected_product(cleaned_data):
+            error_message = "Необходимо выбрать хотя бы один продукт."
+            logger.error(error_message)
+            raise forms.ValidationError(error_message)
+
+        return cleaned_data

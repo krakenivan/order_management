@@ -6,7 +6,7 @@ from django.contrib import messages
 
 
 from common.models import Order
-from common.services.form_services import get_object_form
+from common.services.form_services import get_object_form, is_selected_product
 from common.services.model_services import save_objects
 from common.services.dishes_services import (
     current_dishes_of_order,
@@ -91,3 +91,20 @@ class EditOrderViews(UpdateView):
         messages.success(self.request, "Заказ изменен!")
         logger.info("Заказа успешно изменен.")
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        if not is_selected_product(form.cleaned_data):
+            warning_message = ["Для изменения заказа нужно выбрать блюда.", ]
+            logger.info("Изменение заказа без блюд успешно заблокировано!")
+            if not get_object_form(form, key="table_number"):
+                warning_message.append("Для изменения заказа нужно выбрать стол.")
+
+            return render(
+                self.request,
+                self.template_name,
+                {
+                    "form": form,
+                    "warning_message": warning_message,
+                },
+            )
+        return super().form_invalid(form)

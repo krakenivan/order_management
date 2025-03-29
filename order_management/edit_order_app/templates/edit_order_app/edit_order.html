@@ -4,6 +4,13 @@
 {% block script %}{% include "includes/script_show_message.html"%}{% endblock script %}
 
 {% block content %}
+    <div class="center">
+        {% for m in warning_message %}
+            <h3 class="negative center">
+                {{ m }}
+            </h3>
+        {% endfor %}
+    </div>
     {% include "includes/message.html"%}
     <div class="form-container container-left">
         <h3>Изменение заказа</h3>
