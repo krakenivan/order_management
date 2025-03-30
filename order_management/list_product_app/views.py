@@ -1,5 +1,5 @@
 import logging
-from re import L
+from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, FormView
 from django.contrib import messages
@@ -28,6 +28,7 @@ class AddProductViews(CreateView, ListView):
     form_class = forms.AddProductForm
     template_name = "list_product_app/add_product.html"
     context_object_name = "products"
+    success_url = reverse_lazy("add_product")
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -36,9 +37,9 @@ class AddProductViews(CreateView, ListView):
         logger.info("Продукт успешно добавлен!")
         return response
 
-    def get_success_url(self):
-        # Возвращаем URL текущей страницы
-        return self.request.path
+    def form_invalid(self, form):
+        logger.info("Блюдо не добавлено!")
+        return super().form_invalid(form)
 
 
 class DeleteProductViews(FormView):
@@ -55,3 +56,8 @@ class DeleteProductViews(FormView):
         messages.success(self.request, "Блюдо успешно удалено!")
         logger.info("Продукт успешно удален!")
         return super().form_valid(form)
+
+    def form_invalid(self, form) -> HttpResponse:
+        messages.success(self.request, "Нужно выбрать блюда для удаления.")
+        logger.info("Блюда для удаления не выбраны!")
+        return super().form_invalid(form)
