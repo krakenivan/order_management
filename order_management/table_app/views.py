@@ -1,4 +1,5 @@
 import logging
+from django.shortcuts import render
 from django.views.generic import (
     ListView,
     UpdateView,
@@ -49,6 +50,17 @@ class EditTableViews(UpdateView):
         context["orders"] = self.order
         return context
 
+    def form_invalid(self, form):
+        logger.info("Изменение стола успешно заблокировано!")
+        return render(
+            self.request,
+            self.template_name,
+            {
+                "form": form,
+                "warning_message": "Для изменения нужно указать номер, количество мест и статус стола",
+            },
+        )
+
 
 class AddTableViews(CreateView):
     """Добавление стола"""
@@ -57,6 +69,17 @@ class AddTableViews(CreateView):
     form_class = forms.CreateTableForms
     template_name = "table_app/add_table.html"
     success_url = reverse_lazy("table")
+
+    def form_invalid(self, form):
+        logger.info("Добавление стола успешно заблокировано!")
+        return render(
+            self.request,
+            self.template_name,
+            {
+                "form": form,
+                "warning_message": "Для добавления нужно указать номер, количество мест и статус стола",
+            },
+        )
 
 
 class DeleteTableViews(DeleteView):
