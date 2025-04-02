@@ -1,6 +1,7 @@
 import logging
 from django.db import models
 from django.db.models import Sum
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 logger = logging.getLogger("info")
 
@@ -9,7 +10,7 @@ class Dishes(models.Model):
     """блюда в заказе"""
 
     product = models.ForeignKey("Product", on_delete=models.PROTECT)
-    quantity = models.PositiveIntegerField()
+    quantity = models.PositiveIntegerField(validators=[MinValueValidator(1)])
     total_price = models.PositiveIntegerField(null=True, blank=True)
     order_id = models.ForeignKey("Order", on_delete=models.CASCADE)
 
@@ -51,7 +52,7 @@ class Product(models.Model):
 
     name = models.CharField(max_length=50)
     ingredients = models.TextField(null=True, blank=True)
-    price = models.FloatField()
+    price = models.FloatField(null=False, validators=[MinValueValidator(0.01)])
 
 
 class Table(models.Model):
@@ -63,8 +64,12 @@ class Table(models.Model):
         BUSY = "busy", "Занято"
         FREE = "free", "Свободно"
 
-    number = models.PositiveSmallIntegerField(unique=True)
-    places = models.PositiveSmallIntegerField()
+    number = models.PositiveSmallIntegerField(
+        unique=True, validators=[MinValueValidator(1)]
+    )
+    places = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(20)]
+    )
     status = models.CharField(max_length=4, choices=Status.choices, default=Status.FREE)
 
     def __str__(self):
