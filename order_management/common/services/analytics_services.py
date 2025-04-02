@@ -34,14 +34,14 @@ def analytics(orders, home=False):
         status__in=["expectation", "done"]
     )  # список неоплаченных заказов
     logger.info("Неоплаченные заказы получены")
-    count_unpaid: int = len(unpaid)  # количество неоплаченных
+    # count_unpaid: int = len(unpaid)  # количество неоплаченных
     data = {
         "count_all": count_all,
         "calculat_all": calculat_all,
         "calculat_paid": calculat_paid,
         "calculat_unpaid": calculat_unpaid,
         "more_to_be_paid": more_to_be_paid,
-        "count_unpaid": count_unpaid,
+        # "count_unpaid": count_unpaid,
     }
     if home:
         return data

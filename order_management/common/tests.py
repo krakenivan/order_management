@@ -3,7 +3,17 @@ from django.test import TestCase
 from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError
 
+
 from .models import Table, Order, Dishes, Product
+from .services import (
+    analytics_services,
+    dishes_services,
+    form_services,
+    model_services,
+    order_services,
+    product_services,
+    table_services,
+)
 
 
 class DishesModelsTest(TestCase):
@@ -168,3 +178,95 @@ class TableModelsTest(TestCase):
         with self.assertRaises(ValidationError):
             table = Table(number=3, places=21)
             table.full_clean()
+
+
+class ServicesAnalyticsTest(TestCase):
+    def setUp(self):
+        self.table = Table.objects.create(number=1, places=2, status="busy")
+        self.product_1 = Product.objects.create(name="Test Product", price=100)
+        self.product_2 = Product.objects.create(name="Test Product", price=300)
+        self.order = Order.objects.create(
+            table_number=self.table, status=Order.Status.EXPECTATION
+        )
+        self.dish_1 = Dishes.objects.create(
+            product=self.product_1, quantity=2, order_id=self.order
+        )
+        self.dish_2 = Dishes.objects.create(
+            product=self.product_2, quantity=1, order_id=self.order
+        )
+        self.order.calculation_total_price()
+        self.order_2 = Order.objects.create(
+            table_number=self.table, status=Order.Status.PAID
+        )
+        self.dish_3 = Dishes.objects.create(
+            product=self.product_1, quantity=1, order_id=self.order_2
+        )
+        self.order_2.calculation_total_price()
+
+    def test_analytics(self):
+        analytics_home = analytics_services.analytics(Order.objects.all())
+        self.assertIsInstance(analytics_home, dict)
+        self.assertEqual(analytics_home["count_all"], 2)
+        self.assertEqual(analytics_home["calculat_all"], 600)
+        self.assertEqual(analytics_home["calculat_paid"], 100)
+        self.assertEqual(analytics_home["calculat_unpaid"], 500)
+        self.assertEqual(analytics_home["more_to_be_paid"], 1)
+        self.assertIn(self.order, analytics_home["orders"])
+        analytics = analytics_services.analytics(Order.objects.all(), home=True)
+        self.assertNotIn("orders", analytics)
+
+
+class ServicesDishesTest(TestCase):
+
+    def setUp(self):
+        self.table = Table.objects.create(number=1, places=2, status="busy")
+        self.product_1 = Product.objects.create(name="Test Product", price=100)
+        self.product_2 = Product.objects.create(name="Test Product", price=300)
+        self.order = Order.objects.create(
+            table_number=self.table, status=Order.Status.EXPECTATION
+        )
+        self.dish_1 = Dishes.objects.create(
+            product=self.product_1, quantity=2, order_id=self.order
+        )
+        self.dish_2 = Dishes.objects.create(
+            product=self.product_2, quantity=1, order_id=self.order
+        )
+        self.order.calculation_total_price()
+
+    def test_create_dishes(self):
+        dish = dishes_services.create_dishes(
+            order_id=self.order, product=self.product_1, quantity=3
+        )
+        self.assertEqual(dish.product, self.product_1)
+        self.assertEqual(dish.quantity, 3)
+        self.assertEqual(dish.order_id, self.order)
+        self.assertEqual(dish.total_price, 300)
+
+    def test_current_dishes_of_order(self):
+        dishes = dishes_services.current_dishes_of_order(self.order)
+        self.assertEqual(len(dishes), 2)
+        self.assertIn(self.dish_1, dishes)
+        self.assertIn(self.dish_2, dishes)
+
+    def test_get_id_product_of_dish(self):
+        id = dishes_services.get_id_product_of_dish(self.dish_1)
+        self.assertEqual(id, self.product_1.id)
+
+    def test_get_dish_by_product_id(self):
+        dishes = Dishes.objects.all()
+        dish = dishes_services.get_dish_by_product_id(dishes, self.product_2.id)
+        self.assertEqual(dish, self.dish_2)
+
+    def test_get_dish(self):
+        dish = dishes_services.get_dish(id=self.dish_1.id)
+        self.assertEqual(dish, self.dish_1)
+
+    def test_check_product_id_in_dishes(self):
+        dishes = self.order.dishes_set
+        res = dishes_services.check_product_id_in_dishes(
+            dishes, product_id=self.product_1.id
+        )
+        self.assertTrue(res)
+
+class ServicesFormTest(TestCase):
+    pass
