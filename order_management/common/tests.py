@@ -396,3 +396,57 @@ class ServicesTableTest(TestCase):
     def test_filter_table(self):
         tables = table_services.filter_table(status="free")
         self.assertIn(self.table_2, tables)
+
+
+class ServicesModelTest(TestCase):
+    def setUp(self):
+        self.table = Table.objects.create(number=1, places=4, status="free")
+        self.table_2 = Table.objects.create(number=2, places=4, status="busy")
+        self.order = Order.objects.create(
+            table_number=self.table, status=Order.Status.EXPECTATION
+        )
+
+    def test_all_objects(self):
+        tables = model_services.all_objects(Table.objects)
+        self.assertEqual(len(tables), 2)
+        self.assertIn(self.table, tables)
+        self.assertIn(self.table_2, tables)
+
+    def test_filter_objects(self):
+        tables = model_services.filter_objects(Table.objects, status="free")
+        self.assertEqual(len(tables), 1)
+        self.assertIn(self.table, tables)
+
+    def test_exclude_objects(self):
+        tables = model_services.exclude_objects(Table.objects, status="free")
+        self.assertEqual(len(tables), 1)
+        self.assertIn(self.table_2, tables)
+
+    def test_get_object(self):
+        order = model_services.get_object(Order.objects, id=1)
+        self.assertEqual(order, self.order)
+
+    def test_create_objects(self):
+        model_services.create_objects(Order.objects, table_number=self.table_2)
+        orders = Order.objects.all()
+        self.assertEqual(len(orders), 2)
+        self.assertEqual(orders[0].id, 1)
+        self.assertEqual(orders[0].table_number, self.table)
+        self.assertEqual(orders[1].id, 2)
+        self.assertEqual(orders[1].table_number, self.table_2)
+
+    def test_save_objects(self):
+        new_table = Table(number=3, places=6, status="free")
+        model_services.save_objects(new_table)
+        tables = Table.objects.all()
+        self.assertEqual(len(tables), 3)
+        self.assertEqual(tables[2].id, 3)
+        self.assertEqual(tables[2].number, 3)
+        self.assertEqual(tables[2].places, 6)
+        self.assertEqual(tables[2].status, "free")
+
+    def test_delete_objects(self):
+        model_services.delete_objects(self.table_2)
+        tables = Table.objects.all()
+        self.assertEqual(len(tables), 1)
+        self.assertNotIn(self.table_2, tables)
