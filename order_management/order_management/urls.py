@@ -35,4 +35,5 @@ urlpatterns = [
     path("", include("edit_order_app.urls")),
     path("", include("table_app.urls")),
     path("", include("common.urls")),
+    path("api/v1/", include("api.urls")),
 ]

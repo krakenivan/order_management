@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "edit_order_app",
     "table_app",
     "home",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
@@ -192,4 +193,9 @@ LOGGING = {
             "propagate": True,
         },
     },
+}
+
+REST_FRAMEWORK = {
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 5,
 }
