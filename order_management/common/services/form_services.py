@@ -7,7 +7,7 @@ import logging
 logger = logging.getLogger("info")
 
 
-def get_object_form(form, key):
+def get_object_form(form, key: str):
     """получение объекта из формы по ключу"""
     object = form.cleaned_data.get(key)
     logger.info("Объект из формы получен!")
@@ -30,7 +30,7 @@ def creating_modelform_with_prefix(forms, object):
     return form
 
 
-def comparison_with_object_from_form(form, key, check_data):
+def comparison_with_object_from_form(form, key: str, check_data):
     """сравнение объекта полученного из формы по ключу с переданными данными"""
     return get_object_form(form, key) == check_data
 

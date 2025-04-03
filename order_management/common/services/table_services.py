@@ -10,7 +10,7 @@ from ..models import Table
 logger = logging.getLogger("info")
 
 
-def current_table_order(table):
+def current_table_order(table: Table):
     """получение действующего заказа за переданным столом"""
     order = exclude_objects(table.order_set, status__in=["paid", "completed"])
     logger.info("Действующий заказ за столом получен из БД!")
@@ -18,7 +18,7 @@ def current_table_order(table):
 
 
 def work_orders_at_table(table_id):
-    """получение рабочих заказов за переданным столом"""
+    """получение рабочих заказов за переданным столом по id"""
     orders = filter_objects(
         exclude_order(status__in=["paid", "completed"]), table_number=table_id
     )
@@ -26,7 +26,7 @@ def work_orders_at_table(table_id):
     return orders
 
 
-def switch_table_status(table, status):
+def switch_table_status(table: Table, status: str):
     """переключение статуса стола"""
     if status == "busy":
         table.status = Table.Status.BUSY
@@ -35,7 +35,7 @@ def switch_table_status(table, status):
     logger.info("Статус стола изменен в БД!")
 
 
-def check_table_status(table, status):
+def check_table_status(table: Table, status):
     """проверка статуса стола"""
     return table.status == status
 

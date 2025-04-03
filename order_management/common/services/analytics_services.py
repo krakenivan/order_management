@@ -3,12 +3,14 @@
 """
 
 import logging
-from django.db.models import Sum
+from django.db.models import Sum, QuerySet
+
+from ..models import Order
 
 logger = logging.getLogger("info")
 
 
-def analytics(orders, home=False):
+def analytics(orders: QuerySet[Order], home=False):
     """аналитический расчет"""
     count_all: int = len(orders)  # всего заказов
     logger.info("Количество заказов вычислено.")

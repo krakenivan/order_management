@@ -3,6 +3,7 @@
 """
 
 import logging
+from django.db.models import QuerySet
 from .model_services import (
     create_objects,
     filter_objects,
@@ -11,12 +12,12 @@ from .model_services import (
     all_objects,
 )
 
-from ..models import Order
+from ..models import Order, Table
 
 logger = logging.getLogger("info")
 
 
-def create_order(table):
+def create_order(table: Table):
     """добавление нового заказа"""
     order = create_objects(Order.objects, table_number=table)
     logger.info("Заказ добавлен в БД!")
@@ -44,7 +45,7 @@ def exclude_order(**kwargs):
     return orders
 
 
-def exclude_order_query(query, **kwargs):
+def exclude_order_query(query: QuerySet, **kwargs):
     """исключение заказов из выборки"""
     orders = exclude_objects(query, **kwargs)
     return orders
@@ -57,7 +58,7 @@ def get_order(**kwargs):
     return order
 
 
-def current_order_table(order):
+def current_order_table(order: Order):
     """получение стола заказа"""
     table = order.table_number
     logger.info("Стол для заказа получен из БД!")

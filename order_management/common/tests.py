@@ -1,5 +1,6 @@
 from datetime import date
 from django.test import TestCase
+from django import forms
 from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError
 
@@ -56,7 +57,7 @@ class OrderModelsTest(TestCase):
     def setUp(self):
         self.table = Table.objects.create(number=1, places=2, status="busy")
         self.product_1 = Product.objects.create(name="Test Product", price=100)
-        self.product_2 = Product.objects.create(name="Test Product", price=300)
+        self.product_2 = Product.objects.create(name="Test Product 2", price=300)
         self.order = Order.objects.create(
             table_number=self.table, status=Order.Status.EXPECTATION
         )
@@ -268,5 +269,130 @@ class ServicesDishesTest(TestCase):
         )
         self.assertTrue(res)
 
+
+class TestForm(forms.Form):
+    test_field_1 = forms.CharField()
+    test_field_2 = forms.IntegerField()
+
+
 class ServicesFormTest(TestCase):
-    pass
+
+    def setUp(self):
+        form_data = {"test_field_1": "Test", "test_field_2": 10}
+        self.form = TestForm(data=form_data)
+        self.form.is_valid()
+
+    def test_get_object_form(self):
+        res = form_services.get_object_form(self.form, "test_field_1")
+        self.assertEqual(res, "Test")
+
+    def test_comparison_with_object_from_form(self):
+        res = form_services.comparison_with_object_from_form(
+            self.form, "test_field_2", 10
+        )
+        self.assertTrue(res)
+        res = form_services.comparison_with_object_from_form(
+            self.form, "test_field_2", 100
+        )
+        self.assertFalse(res)
+
+
+class ServicesOrderTest(TestCase):
+    def setUp(self):
+        self.table = Table.objects.create(number=1, places=2, status="busy")
+        self.table_2 = Table.objects.create(number=2, places=4, status="busy")
+        self.table_3 = Table.objects.create(number=3, places=6, status="free")
+        self.order = Order.objects.create(
+            table_number=self.table, status=Order.Status.EXPECTATION
+        )
+        self.order_2 = Order.objects.create(
+            table_number=self.table_2, status=Order.Status.EXPECTATION
+        )
+
+    def test_create_order(self):
+        order_services.create_order(self.table_3)
+        orders = Order.objects.all()
+        self.assertEqual(len(orders), 3)
+        self.assertEqual(orders[2].table_number, self.table_3)
+
+    def test_all_order(self):
+        orders = order_services.all_order()
+        self.assertEqual(len(orders), 2)
+        self.assertIn(self.order, orders)
+        self.assertIn(self.order_2, orders)
+
+    def test_filter_order(self):
+        orders = order_services.filter_order(id=1)
+        self.assertEqual(len(orders), 1)
+        self.assertIn(self.order, orders)
+
+    def test_exclude_order(self):
+        orders = order_services.exclude_order(id=1)
+        self.assertNotIn(self.order, orders)
+
+    def test_exclude_order_query(self):
+        query = Order.objects.all()
+        orders = order_services.exclude_order_query(query, table_number=self.table)
+        self.assertNotIn(self.order, orders)
+
+    def test_get_order(self):
+        order = order_services.get_order(id=2)
+        self.assertEqual(order, self.order_2)
+
+    def test_current_order_table(self):
+        table = order_services.current_order_table(self.order)
+        self.assertEqual(table, self.table)
+
+
+class ServicesProductTest(TestCase):
+    def setUp(self):
+        self.product_1 = Product.objects.create(name="Test Product", price=100)
+        self.product_2 = Product.objects.create(name="Test Product 2", price=300)
+
+    def test_all_product(self):
+        products = product_services.all_product()
+        self.assertEqual(len(products), 2)
+        self.assertIn(self.product_1, products)
+        self.assertIn(self.product_2, products)
+
+    def test_exclude_product(self):
+        products = product_services.exclude_product(name="Test Product")
+        self.assertNotIn(self.product_1, products)
+
+
+class ServicesTableTest(TestCase):
+
+    def setUp(self):
+        self.table_1 = Table.objects.create(number=1, places=2, status="busy")
+        self.table_2 = Table.objects.create(number=2, places=4, status="free")
+        self.order = Order.objects.create(
+            table_number=self.table_1, status=Order.Status.EXPECTATION
+        )
+
+    def test_current_table_order(self):
+        orders = table_services.current_table_order(self.table_1)
+        self.assertEqual(len(orders), 1)
+        self.assertIn(self.order, orders)
+
+    def test_work_orders_at_table(self):
+        orders = table_services.work_orders_at_table(self.table_1.id)
+        self.assertEqual(len(orders), 1)
+        self.assertIn(self.order, orders)
+
+    def test_switch_table_status(self):
+        table_services.switch_table_status(self.table_2, "busy")
+        self.assertEqual(self.table_2.status, "busy")
+
+    def test_check_table_status(self):
+        res = table_services.check_table_status(self.table_2, "free")
+        self.assertTrue(res)
+        res = table_services.check_table_status(self.table_2, "busy")
+        self.assertFalse(res)
+
+    def test_get_table(self):
+        table = table_services.get_table(id=1)
+        self.assertEqual(table, self.table_1)
+
+    def test_filter_table(self):
+        tables = table_services.filter_table(status="free")
+        self.assertIn(self.table_2, tables)

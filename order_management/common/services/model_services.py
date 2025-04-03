@@ -3,7 +3,8 @@
 """
 
 import logging
-from django.db.models import Manager
+from typing import Any
+from django.db.models import Manager, QuerySet
 
 logger = logging.getLogger("info")
 
@@ -29,21 +30,21 @@ def exists_objects_decorator(func):
 
 
 @only_objects_decorator
-def all_objects(objects: Manager):
+def all_objects(objects: Manager | QuerySet):
     """получение всех объектов"""
     return objects.all()
 
 
 @exists_objects_decorator
 @only_objects_decorator
-def filter_objects(objects: Manager, **kwargs):
+def filter_objects(objects: Manager | QuerySet[Any], **kwargs):
     """фильтр объектов"""
     return objects.filter(**kwargs)
 
 
 @exists_objects_decorator
 @only_objects_decorator
-def exclude_objects(objects: Manager, **kwargs):
+def exclude_objects(objects: Manager | QuerySet, **kwargs):
     """исключение объектов"""
     return objects.exclude(**kwargs)
 
@@ -53,7 +54,7 @@ def get_object(objects, **kwargs):
     return objects.get(**kwargs)
 
 
-def create_objects(objects: Manager, **kwargs):
+def create_objects(objects: Manager | QuerySet, **kwargs):
     """добавление объектов"""
     query = objects.create(**kwargs)
     return query
