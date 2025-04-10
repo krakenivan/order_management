@@ -137,6 +137,10 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# Автоматическое создание папки для логов
+LOG_DIR = BASE_DIR / "logs"
+LOG_DIR.mkdir(exist_ok=True)
+
 LOGGING = {
     "version": 1,  # Версия формата конфигурации
     "disable_existing_loggers": False,  # Не отключать существующие логгеры
@@ -165,13 +169,13 @@ LOGGING = {
         "file": {
             "level": "WARNING",
             "class": "logging.FileHandler",  # Запись в файл
-            "filename": os.path.join(BASE_DIR, "logs/django.log"),  # Путь к файлу
+            "filename": LOG_DIR / "django.log",  # Путь к файлу
             "formatter": "verbose",
         },
         "file_middleware": {
             "level": "WARNING",
             "class": "logging.FileHandler",  # Запись в файл
-            "filename": os.path.join(BASE_DIR, "logs/django.log"),  # Путь к файлу
+            "filename": LOG_DIR / "django.log",  # Путь к файлу
             "formatter": "middleware",
         },
     },
